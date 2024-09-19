@@ -1,8 +1,8 @@
-# Tags
+# 标签
 
-## Overview
+## 概述
 
-A `Tag` represents a key, and a way to read/write a specific type of data. Generally exposed as a constant, you can use it to apply or read data from any `TagReadable` (e.g. `Entity`, `ItemStack`, and soon `Block`). They are implemented using NBT, meaning that applying a tag to an `ItemStack` will modify its NBT, same for `Block`, and can therefore be sent to the client.
+一个 `Tag` 代表一个键，以及一种读取/写入特定类型数据的方式。通常作为常量公开，你可以使用它来对任何 `TagReadable`（例如 `Entity`、`ItemStack`，以及即将支持的 `Block`）应用或读取数据。它们是使用 NBT 实现的，这意味着将标签应用于 `ItemStack` 将修改其 NBT，同样适用于 `Block`，因此可以将其发送到客户端。
 
 ```java
 Tag<String> myTag = Tag.String("key");
@@ -10,30 +10,30 @@ Entity entity = ...;
 String data = entity.getTag(myTag);
 ```
 
-Tags benefit are:
+标签的优势在于：
 
-* Control writability and readability independently with `TagReadable`/`TagWritable`, ideal for immutable classes.
-* Hidden conversion complexity, your code should not have to worry about how a `List<ItemStack>` is serialized.
-* Automatic serialization support (as backed by NBT), easing data persistence and debuggability.
+* 通过 `TagReadable`/`TagWritable` 独立控制可读性和可写性，非常适合不可变类。
+* 隐藏转换复杂性，你的代码不需要关心 `List<ItemStack>` 是如何序列化的。
+* 自动序列化支持（由 NBT 支持），简化数据持久化和调试。
 
 ## API
 
-First of all, it is recommended to expose Tags as constant and reused. All `Tag` methods should be pure, and allow to specify additional information to handle the data.
+首先，建议将标签作为常量并重复使用。所有 `Tag` 方法都应该是纯函数，并允许指定附加信息来处理数据。
 
-All tags are available as static factory methods inside the `Tag` class.
+所有标签都可以作为 `Tag` 类中的静态工厂方法使用。
 
-#### Map
+#### 映射
 
-Tag mapping allows you to transform the retrieved value.
+标签映射允许你转换检索到的值。
 
 ```java
 Tag<String> stringTag = Tag.String("my-string");
-// You should also ensure that the string is a valid uuid!
+// 你还应该确保字符串是一个有效的 UUID！
 Tag<UUID> mappedTag = stringTag.map(UUID::fromString, UUID::toString);
 UUID uuid = instance.getTag(mappedTag);
 ```
 
-#### Default value
+#### 默认值
 
 ```java
 Tag<String> stringTag = Tag.String("my-string");
@@ -42,12 +42,12 @@ instance.getTag(stringTag.defaultValue("default"));
 
 #### TagSerializer
 
-`TagSerializer` is similar to the `#map` method, except that you can interact with multiple tags.
+`TagSerializer` 类似于 `#map` 方法，但你可以与多个标签进行交互。
 
-#### Structure
+#### 结构
 
-A structure tag is a wrapper around a nbt compound (map) independent of all the other tags.
+结构标签是围绕 NBT 复合（映射）的包装器，独立于所有其他标签。
 
-#### View
+#### 视图
 
-A view can access every tag and is therefore mostly unsafe, should only be used at last resort.
+视图可以访问每个标签，因此大多数情况下是不安全的，应仅在最后手段时使用。

@@ -3,34 +3,36 @@ title: "Minestom"
 layout: home
 
 hero:
-  name: "Minestom"
+  name: "Minestom的中文教程"
   text: ''
-  tagline: An open-source, lightweight Minecraft server built from the ground up.
+  tagline: 一个从头开始构建的开源、轻量级Minecraft服务器，由Cyanbukkit中文汉化与简化
   image:
     src: /minestom-logo-lg.png
     alt: Minestom Logo
   actions:
     - theme: brand
-      text: Quick Start
+      text: 快速开始
       link: /docs/setup/your-first-server
     - theme: alt
       text: GitHub
-      link: https://github.com/Minestom/Minestom
+      link: https://github.com/Minestom/Minestom 
     - theme: alt
-      text: Discord
-      link: https://discord.gg/fpY6kPUkZb
+      text: QQ群
+      link: http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=7yyVsIraQlY_BaPbw_IwAesluUM6yFg5&authKey=gCGOk5XQvyVD9IzadwWpuVYOIcD7zWeuByIPX2ck1Ntj5ki00jZ3%2FIBO%2Baz3M%2FgD&noverify=0&group_code=927904646
 
 features:
-  - title: Lightweight
-    details: Minestom comes with minimal functionality, which allows for a more efficient and lightweight server that can be easily extended.
-  - title: Community
-    details: We have an active community of developers and users who contribute to its continuous development and are happy to provide assistance.
-  - title: Modern
-    details: Minestom is written from the ground up in modern Java, using best practices and standards to make the code easier to read and maintain.
-  - title: High Performance
-    details: Minestom is designed for efficiency, offering high performance with minimal overhead. It can handle large numbers of players without any performance issues.
-  - title: Multi-Threaded
-    details: Minestom supports using a thread pool to manage chunks independently from instances. This is crucial in providing large performance benefits over traditional Minecraft servers.
-  - title: No Legacy NMS
-    details: With Minestom, net.minecraft.server is a thing of the past. The protocol is fully implemented and does not obfuscate any code, creating a faster and more enjoyable experience.
+  - title: 轻量级
+    details: Minestom具有最小的功能，这允许构建一个更高效、轻量级的服务器，并且可以轻松扩展。
+  - title: 社区
+    details: 我们有一个活跃的开发人员和用户社区，他们为Minestom的持续发展做出贡献，并乐于提供帮助。
+  - title: 现代化
+    details: Minestom使用现代Java从头开始编写，采用最佳实践和标准，使代码更容易阅读和维护。
+  - title: 高性能
+    details: Minestom旨在提高效率，提供高性能且开销极小。它可以处理大量玩家而不会遇到任何性能问题。
+  - title: 多线程
+    details: Minestom支持使用线程池独立管理区块和实例。这对于提供比传统Minecraft服务器更大的性能优势至关重要。
+  - title: 无遗留NMS
+    details: 在Minestom中，net.minecraft.server已成为过去。协议已完全实现，不混淆任何代码，创造更快更愉快的体验。
 ---
+
+&copy; 2024 MineStom的教程. [黑ICP备2021003886号-5](http://www.miitbeian.gov.cn)    

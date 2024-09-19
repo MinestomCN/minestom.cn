@@ -1,5 +1,5 @@
 ---
-description: Describes how to add Minestom as a dependency in your project.
+description: 描述了如何在您的项目中添加Minestom作为依赖项。
 ---
 
 <script setup>
@@ -25,15 +25,15 @@ onMounted(() => {
 });
 </script>
 
-# Dependencies
+# 依赖项
 
 ::: info
-Minestom needs Java 21 or newer in order to run. If you are using Gradle, you must use version 8.5 or higher.
+Minestom 需要 Java 21 或更高版本才能运行。如果您使用 Gradle，必须使用 8.5 或更高版本。
 :::
 
-Adding Minestom to your Java project is done just like a normal library.
+将 Minestom 添加到您的 Java 项目中就像添加普通库一样。
 
-## Repositories
+## 仓库
 
 :::tabs
 == Gradle (Groovy)
@@ -54,7 +54,7 @@ repositories {
 
 :::
 
-## Dependencies
+## 依赖项
 
 :::tabs
 == Gradle (Groovy)
@@ -88,9 +88,6 @@ dependencies {
 
 :::
 
-The version string is always the first 10 characters of a commit hash. You can view commits 
-[here](https://github.com/Minestom/Minestom/commits/master/).
+版本字符串始终是提交哈希的前10个字符。您可以在[这里](https://github.com/Minestom/Minestom/commits/master/)查看提交。
 
-Minestom PR branches are also published and can be used to preview upcoming features. For such branches, the version
-string is `{branch}-{first 10 chars of commit}`. For example, the 1_20_5 branch was usable with the version string
-`1_20_5-dd965f4bb8`.
+Minestom 的 PR 分支也会发布，可以用来预览即将推出的功能。对于这些分支，版本字符串是 `{branch}-{first 10 chars of commit}`。例如，1_20_5 分支可以使用版本字符串 `1_20_5-dd965f4bb8`。

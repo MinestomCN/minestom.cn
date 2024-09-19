@@ -1,38 +1,38 @@
 ---
-description: Everything you need to know about thread-safe code and how to make it so
+description: 关于线程安全代码以及如何实现的所有你需要知道的内容
 ---
 
-# Thread safety in the JVM
+# JVM中的线程安全
 
-First of all, this page's goal is to only be an overview of how to achieve thread-safety. The reader will be provided with keywords for further documentation, but the document here should be enough to understand everything that follows.
+首先，本页的目标只是对如何实现线程安全进行概述。读者将获得进一步文档的关键词，但这里的文档应该足以理解后续内容。
 
-As for its usage in Minestom, you do not have to remember everything you will read here. But it will teach you good practice and allow you to understand the internals to make better decisions.
+至于在Minestom中的使用，你不需要记住你在这里读到的所有内容。但它将教你良好的实践，并允许你理解内部机制，从而做出更好的决策。
 
-## What is thread-safety?
+## 什么是线程安全？
 
-A code is called "thread-safe" if and only if this code can be called from multiple threads without unexpected behavior. Therefore, the term does not say anything about performance or design, it is simply a way to denote how the code can be accessed.
+如果一段代码可以被多个线程调用而不会出现意外行为，那么这段代码就被称为“线程安全”的。因此，这个术语并不涉及性能或设计，它只是表示代码的访问方式。
 
-## What does it cost?
+## 它有什么代价？
 
-Transforming a single-threaded code to a multithreaded one is not as easy as creating multiple threads. The main issue you will encounter is about memory visibility, you can imagine that 2 threads cannot access the same variable in memory at the exact same time without any drawback. Synchronization requires having the thread check if it has the right to access the X method and has therefore a cost, mostly in the order of nano or microseconds, but could lead to an unusable program if too repetitive. Common issues in multithreaded applications are:
+将单线程代码转换为多线程代码并不像创建多个线程那么简单。你将遇到的主要问题是内存可见性，你可以想象两个线程不能同时访问内存中的同一个变量而没有任何缺点。同步要求线程检查它是否有权访问X方法，因此有一定的代价，主要在纳秒或微秒的顺序，但如果过于频繁，可能会导致程序无法使用。多线程应用程序中的常见问题包括：
 
-1. Race-condition: when the same method is called by two threads at the same time, which generally causes issues that are hard to debug
-2. Deadlock: when two locks are waiting for each other, meaning that those will never be freed
+1. 竞态条件：当同一个方法被两个线程同时调用时，通常会导致难以调试的问题
+2. 死锁：当两个锁相互等待时，这意味着它们永远不会被释放
 
-## What to use?
+## 使用什么？
 
-A lot of tools/features exist to make developing thread-safe and efficient code easier.
+有许多工具/功能可以使开发线程安全和高效的代码更容易。
 
-### Fields
+### 字段
 
-Fields need to have some sort of synchronization mechanism. The JVM comes with the `volatile` access flag which forces the field to be always on the main memory instead of in the cache (with some other details that I will not describe) so every thread reads the value from the exact same place. Depending on your application, a `ThreadLocal<T>` object could be enough, you could think of it as a `Map<Thread, T>` where Thread is always the current thread. The easiest way to make a field thread-safe is to make it immutable with the `final` keyword, if you cannot change a field, you do not risk multiple threads to change it at the same time.
+字段需要某种同步机制。JVM带有`volatile`访问标志，它强制字段始终在主内存中而不是在缓存中（还有一些我不会描述的其他细节），因此每个线程都从完全相同的地方读取值。根据你的应用程序，一个`ThreadLocal<T>`对象可能就足够了，你可以把它想象成一个`Map<Thread, T>`，其中Thread始终是当前线程。使字段线程安全的最简单方法是使用`final`关键字使其不可变，如果你不能更改字段，你就不会冒多个线程同时更改它的风险。
 
 ::: warning
-Making a field thread-safe does not mean that the object itself is. But only that accessing the field will always return you the correct instance.
+使字段线程安全并不意味着对象本身是线程安全的。但这只意味着访问字段将始终返回正确的实例。
 :::
 
-### Methods
+### 方法
 
-In addition to the fields, you need to way to manage your flow control so two methods are not called at the exact time which is likely to break every non-thread-safe program (race-condition). Thread synchronization happens thanks to the help of locks, those are mechanisms that will make the current thread waits until someone tells him that he can now open the door and close behind him.
+除了字段之外，你还需要一种方法来管理你的流程控制，以便两个方法不会在完全相同的时间被调用，这很可能会破坏每个非线程安全的程序（竞态条件）。线程同步通过锁的帮助来实现，这些机制将使当前线程等待，直到有人告诉他现在可以打开门并在他身后关闭。
 
-The JVM is again here to the rescue with the `synchronized` flag or the low-level `Object#wait/notify()` methods. There are also higher-level tools such as `CountDownLatch`, `Phaser`, and even some handy safe collections to replace your non-thread-safe ones! `ConcurrentHashMap`, `CopyOnWriteArrayList`, `ConcurrentLinkedQueue`, and a lot of other ones available in your [JDK](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/package-summary.html).
+JVM再次提供了帮助，带有`synchronized`标志或低级别的`Object#wait/notify()`方法。还有一些更高级别的工具，如`CountDownLatch`、`Phaser`，甚至一些方便的安全集合来替换你的非线程安全集合！`ConcurrentHashMap`、`CopyOnWriteArrayList`、`ConcurrentLinkedQueue`，以及许多其他可以在你的[JDK](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/concurrent/package-summary.html)中找到的工具。

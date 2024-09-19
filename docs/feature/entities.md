@@ -1,89 +1,89 @@
-# Entities
+# 实体
 
-## Overview
+## 概述
 
-In Minestom all entities must extend `Entity` directly or from their subclasses. The Entity class mainly provides developers with a serverside API that doesn't have much of an effect on the client. Similarly to `ItemStack` there is a thing named `EntityMeta` that allows you to change what the client sees. This article will talk in detail about the implementations of `EntityMeta`.
+在 Minestom 中，所有实体必须直接或通过其子类扩展 `Entity`。`Entity` 类主要为开发者提供服务器端 API，对客户端影响不大。与 `ItemStack` 类似，有一个名为 `EntityMeta` 的东西，允许你改变客户端看到的内容。本文将详细讨论 `EntityMeta` 的实现。
 
-## Entity Classes
+## 实体类
 
-Entity creation starts with an entity class selection. Regardless of the type of entity being created, you can instantiate it as any of the following classes:
+实体创建从选择实体类开始。无论创建的实体类型如何，你都可以将其实例化为以下类之一：
 
-* `Entity` is the most barebones version of an entity. It provides you with a minimal API (and minimal overhead), including spawning packet handling, metadata support, default physics.
-* `LivingEntity` extends `Entity` and also allows you to grant your entity liveliness. The type of entity doesn't matter, minestom doesn't restrict you to what Mojang intends. If you give it health, it will have health. This subclass also provides an API to modify the entity's equipment and attributes.
-* `EntityCreature` extends `LivingEntity` and also provides you with the navigation and AI API.
+* `Entity` 是最基础的实体版本。它为你提供了一个最小的 API（和最小的开销），包括生成数据包处理、元数据支持、默认物理。
+* `LivingEntity` 扩展了 `Entity`，并允许你赋予实体生命力。实体的类型无关紧要，Minestom 不会限制你使用 Mojang 意图的类型。如果你给它生命值，它就会有生命值。这个子类还提供了一个 API 来修改实体的装备和属性。
+* `EntityCreature` 扩展了 `LivingEntity`，并为你提供了导航和 AI API。
 
-If none of the above fits your requirements, you are free to use any of these classes as an ancestor for your own entity class implementation. It could be viable in cases when you need to handle physics or overwrite already presented methods. There are several examples in Minestom repository itself: `Player` that extends `LivingEntity` and handles equipment and a bunch of other things; `EntityProjectile` that extends `Entity` and has its own physics and collision code.
+如果上述类都不符合你的要求，你可以自由地使用这些类中的任何一个作为你自己的实体类实现的祖先。在需要处理物理或覆盖已呈现方法的情况下，这可能是可行的。Minestom 仓库本身有几个例子：`Player` 扩展了 `LivingEntity` 并处理装备和其他一堆事情；`EntityProjectile` 扩展了 `Entity` 并有自己的物理和碰撞代码。
 
-### Examples
+### 示例
 
-Barebones horse creation and spawn:
+创建和生成一个基础的马：
 
 ```java
-Instance instance = ...; // instance to spawn a horse in
+Instance instance = ...; // 要在其中生成马的实例
 Pos spawnPosition = new Pos(0D, 42D, 0D);
 Entity horse = new Entity(EntityType.HORSE);
-horse.setInstance(instance, spawnPosition); // actually spawning a horse
+horse.setInstance(instance, spawnPosition); // 实际生成马
 ```
 
-Creating a boat with liveness and the possibility to manipulate the AI and navigation. For example, we can add some goals to it to make it aggressive and attacking players.
+创建一个具有生命力和可操作 AI 和导航的船。例如，我们可以给它添加一些目标，使其具有攻击性并攻击玩家。
 
 ```java
-Instance instance = ...; // instance to spawn a boat in
+Instance instance = ...; // 要在其中生成船的实例
 Pos spawnPosition = new Pos(0D, 42D, 0D);
 EntityCreature boat = new EntityCreature(EntityType.BOAT);
-// modify AI so that the boat is aggressive
-boat.setInstance(instance, spawnPosition); // actually spawning a boat
+// 修改 AI 使船具有攻击性
+boat.setInstance(instance, spawnPosition); // 实际生成船
 ```
 
-## Entity Meta
+## 实体元数据
 
-Once you have selected a class for an entity and instantiated it, you can retrieve it's metadata using `Entity#getEntityMeta()`. Casting this to the proper type, depending on the entity type you specified on instantiation, allows you to change the way your entity will be displayed on clients.
+一旦你为实体选择了类并实例化它，你可以使用 `Entity#getEntityMeta()` 检索其元数据。根据实例化时指定的实体类型，将其转换为适当的类型，允许你改变实体在客户端上的显示方式。
 
-### Examples
+### 示例
 
-Setting color to a horse from the first example:
+为第一个示例中的马设置颜色：
 
 ```java
 HorseMeta meta = (HorseMeta) horse.getEntityMeta();
 meta.setVariant(new HorseMeta.Variant(HorseMeta.Marking.WHITE_DOTS, HorseMeta.Color.CREAMY));
 ```
 
-Making a boat look menacing:
+使船看起来具有威胁性：
 
 ```java
 BoatMeta meta = (BoatMeta) boat.getEntityMeta();
 meta.setOnFire(true);
 meta.setCustomNameVisible(true);
-meta.setCustomName(Component.text("Dangerous boat", NamedTextColor.RED));
+meta.setCustomName(Component.text("危险的船", NamedTextColor.RED));
 ```
 
-## Useful methods
+## 有用的方法
 
-### Entity presence
+### 实体存在
 
-Immediately after instantiation, an entity is not counted as active and is therefore not present in any of your instances. To actually spawn it you must call `Entity#setInstance(Instance, Position)`.
+在实例化后，实体不被视为活动状态，因此不会出现在任何实例中。要实际生成它，你必须调用 `Entity#setInstance(Instance, Position)`。
 
-There's also a handy `Entity#setAutoViewable(boolean)` that will automatically track whether this entity is in the viewable range of the players of the instance it's in and send spawn/destruction packets to them. All entities are auto-viewable by default.
+还有一个方便的 `Entity#setAutoViewable(boolean)`，它会自动跟踪该实体是否在实例中玩家的可见范围内，并向它们发送生成/销毁数据包。所有实体默认都是自动可见的。
 
-To remove the entity simply call `Entity#remove()`.
+要移除实体，只需调用 `Entity#remove()`。
 
-### Switching entity type
+### 切换实体类型
 
-There's a possibility for you as a developer to switch the entity type of an already existing entity. Such an action can be performed using `Entity#switchEntityType(EntityType)` and will nullify all the metadata the entity previously had.
+作为开发者，你可以切换已存在实体的实体类型。可以使用 `Entity#switchEntityType(EntityType)` 执行此操作，并将使实体之前的所有元数据失效。
 
-If you're wondering how it works internally, a destruction packet is being sent to all the viewers of that entity, then a new spawn packet takes its place. If you're changing the entity type of a player, all viewers except for himself will receive those packets, so it's impossible to render the player on his own client with a different entity type.
+如果你想知道它在内部是如何工作的，一个销毁数据包会发送给该实体的所有观察者，然后一个新的生成数据包会取代它。如果你正在改变玩家实体类型，除了玩家自己之外的所有观察者都会收到这些数据包，因此不可能在玩家自己的客户端上以不同的实体类型渲染玩家。
 
-### Efficiently performing batch-update on metadata
+### 高效地批量更新元数据
 
-There could be situations when you need to modify multiple attributes of `EntityMeta` at once. There is an issue here because every time you modify the meta, a packet is being sent to all its viewers. To reduce network bandwidth and send all updates at once there is a `EntityMeta#setNotifyAboutChanges(boolean)` method. Call it with `false` before your first metadata update and then with `true` right after the last one: all performed changes will be sent at once. If you need more on this subject, look into the associated method documentation: it's rich.
+在某些情况下，你可能需要一次性修改 `EntityMeta` 的多个属性。这里有一个问题，因为每次修改元数据时，都会向其所有观察者发送一个数据包。为了减少网络带宽并一次性发送所有更新，有一个 `EntityMeta#setNotifyAboutChanges(boolean)` 方法。在第一次元数据更新之前调用它并传递 `false`，然后在最后一次更新之后立即传递 `true`：所有执行的更改将一次性发送。如果你需要更多关于此主题的信息，请查看相关方法的文档：它很丰富。
 
-For example, we can take the code that updates boat metadata: if we execute it after a boat has been spawned, it will result in 3 metadata packets being sent to each of the boat's viewers. To avoid this, all we need is to add two simple lines:
+例如，我们可以采用更新船元数据的代码：如果在船生成后执行它，将导致向船的每个观察者发送 3 个元数据数据包。为了避免这种情况，我们只需要添加两行简单的代码：
 
 ```java
 BoatMeta meta = (BoatMeta) boat.getEntityMeta();
-meta.setNotifyAboutChanges(false); // this
+meta.setNotifyAboutChanges(false); // 这行
 meta.setOnFire(true);
 meta.setCustomNameVisible(true);
-meta.setCustomName(Component.text("Dangerous boat", NamedTextColor.RED));
-meta.setNotifyAboutChanges(true); // and this
+meta.setCustomName(Component.text("危险的船", NamedTextColor.RED));
+meta.setNotifyAboutChanges(true); // 和这行
 ```

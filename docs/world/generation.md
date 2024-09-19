@@ -1,16 +1,16 @@
-# Generation
+# 生成
 
-## Basics
+## 基础
 
-Each `Instance` has an optional `Generator` that is responsible for generating areas of various sizes.
+每个 `Instance` 都有一个可选的 `Generator`，负责生成各种大小的区域。
 
-The area size is abstracted as a `GenerationUnit` representing an aggregate of sections, the generator then has the ability to place blocks (and biomes) using relative and absolute coordinates. The dynamically sized area allows the API to be more flexible, and allows the instance to choose whether to generate full chunks at once or section by section without changing the generator.
+区域大小被抽象为一个 `GenerationUnit`，表示多个区块的集合，生成器然后可以使用相对和绝对坐标放置方块（和生物群系）。动态大小的区域使 API 更加灵活，并允许实例选择是立即生成完整的区块还是逐区块生成，而无需更改生成器。
 
-Generation tasks are currently forwarded to the common JDK pool. Virtual threads will be used once Project Loom is integrated into the mainline.
+生成任务目前被转发到通用的 JDK 线程池。一旦 Project Loom 集成到主线中，将使用虚拟线程。
 
-## Your first flat world
+## 你的第一个平坦世界
 
-Here is the naive way of generating a flat world from y=0 to y=40
+以下是生成从 y=0 到 y=40 的平坦世界的简单方法
 
 ```java
 Instance instance = ...;
@@ -27,7 +27,7 @@ instance.setGenerator(unit -> {
 });
 ```
 
-`GenerationUnit#absoluteStart` returns the lowest coordinate of the unit which is useful for absolute placements. Now, we can heavily simplify the code by using one of our hand-optimized methods:
+`GenerationUnit#absoluteStart` 返回单元的最低坐标，这对于绝对放置很有用。现在，我们可以通过使用我们手动优化的方法来大大简化代码：
 
 ```java
 Instance instance = ...;
@@ -35,13 +35,13 @@ instance.setGenerator(unit ->
     unit.modifier().fillHeight(0, 40, Block.STONE));
 ```
 
-## Modifying over unit borders
+## 跨单元边界修改
 
-Modification over the border of a `GenerationUnit` cannot be done without extra steps. `GenerationUnit`s cannot be resized during generation, instead we need to create a new `GenerationUnit` that encloses the area around our target blocks. We can do this through the `GenerationUnit#fork` methods.
+在 `GenerationUnit` 边界之外的修改不能在不采取额外步骤的情况下完成。`GenerationUnit` 在生成过程中不能调整大小，相反，我们需要创建一个新的 `GenerationUnit`，它包围了我们目标方块周围的区域。我们可以通过 `GenerationUnit#fork` 方法来实现这一点。
 
-Forked units are designed to be placed into the instance whenever it is possible to do so. This eliminates any section bordering issues that may arise.
+分叉的单元设计为在可能的情况下放置到实例中。这消除了可能出现的任何区块边界问题。
 
-There are two fork methods, both useful in their own ways. Here is a simple example of adding a structure (snowman):\
+有两种分叉方法，各有各的用途。以下是一个简单的添加结构（雪人）的示例：
 
 ```java
 Instance instance = ...;
@@ -49,28 +49,28 @@ instance.setGenerator(unit -> {
     Random random = ...;
     Point start = unit.absoluteStart();
 
-    // Create a snow carpet for the snowmen
+    // 为雪人创建雪地毯
     unit.modifier().fillHeight(-64, -60, Block.SNOW);
 
-    // Exit out if unit is not the bottom unit, and exit 5 in 6 times otherwise
+    // 如果单元不是底部单元，或者在其他情况下有 5/6 的概率退出
     if (start.y() > -64 || random.nextInt(6) != 0) {
         return;
     }
 
-    // Let's fork this section to add our tall snowman.
-    // We add two extra sections worth of space to this fork to fit the snowman.
+    // 让我们分叉这个部分来添加我们的高雪人。
+    // 我们在这个分叉中增加了两个额外的区块空间来适应雪人。
     GenerationUnit fork = unit.fork(start, start.add(16, 32, 16));
 
-    // Now we add the snowman to the fork
+    // 现在我们添加雪人到分叉中
     fork.modifier().fill(start, start.add(3, 19, 3), Block.POWDER_SNOW);
     fork.modifier().setBlock(start.add(1, 19, 1), Block.JACK_O_LANTERN);
 });
 ```
 
-Adding structures using forks is trivial.\
-However, for this `GenerationUnit#fork` method, you must know how large these structures are beforehand. To alleviate this condition, there is an alternative `GenerationUnit#fork` method that gives access to a direct `Block.Setter`. This `Block.Setter` automatically adjusts the fork's size depending on the blocks you set using it.\
-\
-Here is the same example written with the `Block.Setter` utility:
+使用分叉添加结构很简单。
+然而，对于这个 `GenerationUnit#fork` 方法，你必须事先知道这些结构的大小。为了缓解这个条件，有一个替代的 `GenerationUnit#fork` 方法，它提供了一个直接的 `Block.Setter`。这个 `Block.Setter` 会根据你设置的方块自动调整分叉的大小。
+
+以下是使用 `Block.Setter` 工具编写的相同示例：
 
 ```java
 Instance instance = ...;
@@ -78,15 +78,15 @@ instance.setGenerator(unit -> {
     Random random = ...;
     Point start = unit.absoluteStart();
 
-    // Create a snow carpet for the snowmen
+    // 为雪人创建雪地毯
     unit.modifier().fillHeight(-64, -60, Block.SNOW);
 
-    // Exit out if unit is not the bottom unit or 5 in 6 times
+    // 如果单元不是底部单元或者有 5/6 的概率退出
     if (start.y() > -64 || random.nextInt(6) != 0) {
         return;
     }
 
-    // Add the snowman
+    // 添加雪人
     unit.fork(setter -> {
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 19; y++) {
@@ -100,35 +100,35 @@ instance.setGenerator(unit -> {
 });
 ```
 
-These examples will generate a flat snow world with chunky snowmen scattered throughout, cleanly applying the snowmen whenever it is possible to do so.
+这些示例将生成一个平坦的雪世界，雪人散布其中，干净地在可能的情况下应用雪人。
 
 ![](/docs/world/generation/snowmen-terrain.png)
 
-Example with missing terrain for clarity:
+为了清晰起见，缺少地形的示例：
 
 ![](/docs/world/generation/snowmen.png)
 
-## Heightmaps with JNoise
+## 使用 JNoise 的高度图
 
-This example shows a simple approach to building heightmaps using JNoise, this can be expanded to other noise implementations as well.
+这个示例展示了使用 JNoise 构建高度图的简单方法，这也可以扩展到其他噪声实现。
 
 ```java
-// Noise used for the height
+// 用于高度的噪声
 JNoise noise = JNoise.newBuilder()
         .fastSimplex()
-        .setFrequency(0.005) // Low frequency for smooth terrain
+        .setFrequency(0.005) // 低频率用于平滑地形
         .build();
 
-// Set the Generator
+// 设置生成器
 instance.setGenerator(unit -> {
     Point start = unit.absoluteStart();
     for (int x = 0; x < unit.size().x(); x++) {
         for (int z = 0; z < unit.size().z(); z++) {
             Point bottom = start.add(x, 0, z);
 
-            synchronized (noise) { // Synchronization is necessary for JNoise
+            synchronized (noise) { // 同步对于 JNoise 是必要的
                 double height = noise.getNoise(bottom.x(), bottom.z()) * 16;
-                // * 16 means the height will be between -16 and +16
+                // * 16 意味着高度将在 -16 和 +16 之间
                 unit.modifier().fill(bottom, bottom.add(1, 0, 1).withY(height), Block.STONE);
             }
         }
@@ -136,6 +136,6 @@ instance.setGenerator(unit -> {
 });
 ```
 
-Here's an example of what that looks like:
+以下是它的样子：
 
 ![](/docs/world/generation/jnoise.png)

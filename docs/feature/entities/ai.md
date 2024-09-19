@@ -1,24 +1,24 @@
 # AI
 
-## Overview
+## 概述
 
-Entity AI is done by giving an entity an ordered list of goals to do if a condition is validated. Once an action is found, the entity will be affected by it until asked to stop.
+实体AI通过给实体一个有序的目标列表来实现，如果条件被验证，实体将执行这些目标。一旦找到一个动作，实体将受到该动作的影响，直到被要求停止。
 
-For example, a very simple aggressive creature could have:
+例如，一个非常简单的攻击性生物可能会有：
 
-1. Attack target
-2. Walk randomly around
-3. Do nothing
+1. 攻击目标
+2. 随机走动
+3. 什么都不做
 
-Every tick, the entity will find the goal to follow based on its priority. If the entity has a target the first goal will be used, and the rest be ignored.
+每个tick，实体将根据其优先级找到要遵循的目标。如果实体有目标，将使用第一个目标，其余目标将被忽略。
 
-## Groups
+## 组
 
-You might find yourself wanting to have multiple goals being executed at the same time. For example, having an entity attacking its target while swimming to avoid dying. This is done by adding multiple `EntityAIGroup` to the entity, each group contains a list of goals to be executed independently. 
+你可能会发现自己希望同时执行多个目标。例如，一个实体在攻击目标的同时游泳以避免死亡。这是通过向实体添加多个`EntityAIGroup`来实现的，每个组包含一个独立执行的目标列表。
 
-## Example
+## 示例
 
-In this example, instances of ZombieCreature will attack nearby players or walk around based on if a player is nearby.
+在这个示例中，ZombieCreature的实例将根据附近是否有玩家来攻击附近的玩家或四处走动。
 
 ```java
 package demo.entity;
@@ -34,12 +34,12 @@ public class ZombieCreature extends EntityCreature {
         super(EntityType.ZOMBIE);
         addAIGroup(
             List.of(
-                new MeleeAttackGoal(this, 1.6, 20, TimeUnit.SERVER_TICK), // Attack the target
-                new RandomStrollGoal(this, 20) // Walk around
+                new MeleeAttackGoal(this, 1.6, 20, TimeUnit.SERVER_TICK), // 攻击目标
+                new RandomStrollGoal(this, 20) // 四处走动
             ),
             List.of(
-                new LastEntityDamagerTarget(this, 32), // First target the last entity which attacked you
-                new ClosestEntityTarget(this, 32, entity -> entity instanceof Player) // If there is none, target the nearest player
+                new LastEntityDamagerTarget(this, 32), // 首先瞄准最后攻击你的实体
+                new ClosestEntityTarget(this, 32, entity -> entity instanceof Player) // 如果没有，瞄准最近的玩家
             )
         );
     }

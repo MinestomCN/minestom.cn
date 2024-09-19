@@ -1,16 +1,16 @@
-# Player skin
+# 玩家皮肤
 
-There are three ways of defining a player skin:
+定义玩家皮肤有三种方式：
 
-- Setting your player UUID (see [here](player-uuid)) to their Mojang UUID, clients by default retrieve the skin based on this value. This is done automatically by `MojangAuth.init()`
-- Changing it in the `PlayerSkinInitEvent` event
-- Using the method `Player#setSkin(PlayerSkin)`
+- 将玩家UUID（参见[这里](player-uuid)）设置为他们的Mojang UUID，客户端默认根据此值获取皮肤。这是由`MojangAuth.init()`自动完成的。
+- 在`PlayerSkinInitEvent`事件中更改皮肤
+- 使用`Player#setSkin(PlayerSkin)`方法
 
-## How to retrieve skin data from Mojang
+## 如何从Mojang获取皮肤数据
 
-### Using PlayerSkin methods
+### 使用PlayerSkin方法
 
-`PlayerSkin` offers some utils methods to retrieve a skin using simple information such as a Mojang UUID or a Minecraft username
+`PlayerSkin`提供了一些实用方法，可以通过简单的信息（如Mojang UUID或Minecraft用户名）获取皮肤。
 
 ```java
 PlayerSkin skinFromUUID = PlayerSkin.fromUuid(MOJANG_UUID_AS_STRING);
@@ -19,30 +19,30 @@ PlayerSkin skinFromUsername = PlayerSkin.fromUsername("Notch");
 ```
 
 ::: warning
-Those methods make direct requests to the Mojang API, it is recommended to cache the values.
+这些方法直接向Mojang API发出请求，建议缓存这些值。
 :::
 
-### Retrieve texture value & signature manually
+### 手动获取纹理值和签名
 
-Most of what I will say is described here: [https://wiki.vg/Mojang_API#Username\_-.3E_UUID_at_time](https://wiki.vg/Mojang_API#Username_-.3E_UUID_at_time)
+我所说的大部分内容在这里有描述：[https://wiki.vg/Mojang_API#Username\_-.3E_UUID_at_time](https://wiki.vg/Mojang_API#Username_-.3E_UUID_at_time)
 
-You firstly need to get your Mojang UUID, which can be done by a request based on your username:
+首先，你需要获取你的Mojang UUID，这可以通过基于用户名的请求来完成：
 
 ```
  GET https://api.mojang.com/users/profiles/minecraft/<username>
 ```
 
-Then, after getting your UUID:
+然后，获取UUID后：
 
 ```
  GET https://sessionserver.mojang.com/session/minecraft/profile/<uuid>?unsigned=false
 ```
 
-You'll get here both the texture value and the signature. Those values are used to create a `PlayerSkin`.
+你将在这里获得纹理值和签名。这些值用于创建一个`PlayerSkin`。
 
 ### PlayerSkinInitEvent
 
-The event is called at the player connection and is used to define the skin to send to the player the first time. It is as simple as
+该事件在玩家连接时被调用，用于首次定义发送给玩家的皮肤。非常简单：
 
 ```java
 GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();

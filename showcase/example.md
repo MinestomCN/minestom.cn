@@ -1,15 +1,15 @@
-# Showcase Example
+# 展示示例
 
-Showcase Example is a template to use when making your own server showcase!
+展示示例是一个模板，用于制作您自己的服务器展示！
 
-## Server Info
+## 服务器信息
 
 - **IP**: mc.example.com
-- **Website**: [example.com](https://example.com)
-- **Minigames**: Bedwars, Skywars
+- **网站**: [example.com](https://example.com)
+- **小游戏**: Bedwars, Skywars
 
 ## Bedwars
 
-Showcase Example bedwars is a new take on the classic Minecraft minigame. It includes many fun and exciting features like abilities and powerups.
+展示示例的Bedwars是对经典Minecraft小游戏的新诠释。它包含许多有趣和令人兴奋的功能，如能力和增益。
 
-![Example Image](https://hypixel.net/attachments/screen-shot-2020-05-26-at-9-49-59-pm-png.1718745/)
+![示例图片](https://hypixel.net/attachments/screen-shot-2020-05-26-at-9-49-59-pm-png.1718745/)

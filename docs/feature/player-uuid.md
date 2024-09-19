@@ -1,18 +1,18 @@
-# Player UUID
+# 玩家 UUID
 
-As UUID implies, it has to be a unique identifier. By default, this identifier is generated randomly at the connection so unique but not persistent.
+正如 UUID 所暗示的，它必须是一个唯一的标识符。默认情况下，这个标识符在连接时随机生成，因此是唯一的但不是持久的。
 
-What you normally want is a unique identifier that will stay the same even after a disconnection or a server shutdown, which could be obtained by getting the Mojang UUID of the player using their API, or having your custom UUID linked to the registration system on your website, we do not implement that by default, so you are free to choose what you prefer.
+你通常想要的是一个即使在断开连接或服务器关闭后仍然保持不变的唯一标识符，这可以通过使用玩家的 Mojang UUID 通过他们的 API 获取，或者将你的自定义 UUID 链接到你网站上的注册系统来实现，我们默认不实现这一点，因此你可以自由选择你喜欢的方案。
 
-Here how to register your own UUID provider:
+以下是如何注册你自己的 UUID 提供者：
 
 ```java
 connectionManager.setUuidProvider((playerConnection, username) -> {
-   // This method will be called at players connection to set their UUID
-   return UUID.randomUUID(); /* Set here your custom UUID registration system */
+   // 这个方法将在玩家连接时被调用以设置他们的 UUID
+   return UUID.randomUUID(); /* 在这里设置你的自定义 UUID 注册系统 */
 });
 ```
 
 ::: warning
-The UUID provider is unnecessary and will not work if you have IP forwarding enabled (Velocity/Bungee)
+如果你启用了 IP 转发（Velocity/Bungee），UUID 提供者是不必要的，并且不会工作
 :::

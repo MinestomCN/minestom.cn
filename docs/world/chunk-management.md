@@ -1,37 +1,36 @@
 ---
 description: >-
-  This page describes what you need to know about chunks management, more
-  specifically for InstanceContainer
+  本页描述了你需要了解的关于块管理的信息，更具体地说是关于InstanceContainer的
 ---
 
-# Chunk management
+# 块管理
 
-## Load/Save Steps
+## 加载/保存步骤
 
-When trying to load a chunk, the instance container does multiple checks in this order:
+尝试加载一个块时，实例容器会按此顺序进行多重检查：
 
-1. Verify if the chunk is already loaded (stop here if yes)
-2. Try to load the chunk from the instance [IChunkLoader](https://minestom.github.io/Minestom/net/minestom/server/instance/IChunkLoader.html) using [IChunkLoader#loadChunk](https://minestom.github.io/Minestom/net/minestom/server/instance/IChunkLoader.html#loadChunk%28net.minestom.server.instance.Instance,int,int,net.minestom.server.utils.chunk.ChunkCallback%29) (stop here if the chunk loading is successful)
-3. Create a new chunk and execute the instance ChunkGenerator (if any) to it to generate all the chunk's blocks.
+1. 验证块是否已经加载（如果是，则停止）
+2. 尝试使用实例的[IChunkLoader](https://minestom.github.io/Minestom/net/minestom/server/instance/IChunkLoader.html)从[IChunkLoader#loadChunk](https://minestom.github.io/Minestom/net/minestom/server/instance/IChunkLoader.html#loadChunk%28net.minestom.server.instance.Instance,int,int,net.minestom.server.utils.chunk.ChunkCallback%29)加载块（如果块加载成功，则停止）
+3. 创建一个新的块，并执行实例的ChunkGenerator（如果有的话）以生成块的所有方块。
 
-When trying to save a chunk, [IChunkLoader#saveChunk](https://minestom.github.io/Minestom/net/minestom/server/instance/IChunkLoader.html#saveChunk%28net.minestom.server.instance.Chunk,java.lang.Runnable%29) is called.
+尝试保存一个块时，会调用[IChunkLoader#saveChunk](https://minestom.github.io/Minestom/net/minestom/server/instance/IChunkLoader.html#saveChunk%28net.minestom.server.instance.Chunk,java.lang.Runnable%29)。
 
-### Default behavior
+### 默认行为
 
-`AnvilLoader` is the default chunk loader used by all `InstanceContainer`
+`AnvilLoader`是所有`InstanceContainer`默认使用的块加载器。
 
-## Create your own chunk type
+## 创建你自己的块类型
 
-[Chunk](https://minestom.github.io/Minestom/net/minestom/server/instance/Chunk.html) is an abstract class, you can simply create a new class extending it to create your own implementation.
+[Chunk](https://minestom.github.io/Minestom/net/minestom/server/instance/Chunk.html) 是一个抽象类，你可以简单地创建一个新类来扩展它，以创建你自己的实现。
 
-Making your own chunk implementation allows you to customize how you want blocks to be stored, how you want chunks tick to happen, etc...
+制作你自己的块实现允许你自定义你想要如何存储方块，你想要块的tick如何发生等等。
 
-### How to make my instance use my implementation
+### 如何使我的实例使用我的实现
 
-If you are using a simple [InstanceContainer](https://minestom.github.io/Minestom/net/minestom/server/instance/InstanceContainer.html) with the default [IChunkLoader](https://minestom.github.io/Minestom/net/minestom/server/instance/IChunkLoader.html) you will just need to change the instance's chunk supplier
+如果你正在使用一个简单的[InstanceContainer](https://minestom.github.io/Minestom/net/minestom/server/instance/InstanceContainer.html) 与默认的[IChunkLoader](https://minestom.github.io/Minestom/net/minestom/server/instance/IChunkLoader.html)，你只需要更改实例的块供应商
 
 ```java
 instanceContainer.setChunkSupplier(YOUR_CHUNK_SUPPLIER);
 ```
 
-It will be called when a chunk object needs to be provided.
+当需要提供块对象时，它将被调用。

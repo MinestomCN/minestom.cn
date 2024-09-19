@@ -1,36 +1,36 @@
-# Permissions
+# 权限
 
-Permissions are the feature allowing you to determine if a player is able to perform an action or not.
+权限是允许你确定玩家是否能够执行某个操作的功能。
 
-[`Permission`](https://minestom.github.io/Minestom/net/minestom/server/permission/Permission.html) is an immutable class that can be added to any [`PermissionHandler`](https://minestom.github.io/Minestom/net/minestom/server/permission/PermissionHandler.html).
+[`Permission`](https://minestom.github.io/Minestom/net/minestom/server/permission/Permission.html) 是一个不可变类，可以添加到任何 [`PermissionHandler`](https://minestom.github.io/Minestom/net/minestom/server/permission/PermissionHandler.html) 中。
 
-A permission contains 2 things, a unique name (same as with Bukkit if you are familiar with it), and an optional `NBTCompound` which can be used to add additional data to the permission (no more "my.permission.X" where X represents a number).
+一个权限包含两部分，一个唯一的名称（如果你熟悉 Bukkit，这与 Bukkit 相同），以及一个可选的 `NBTCompound`，可以用来为权限添加额外数据（不再有 "my.permission.X"，其中 X 代表一个数字）。
 
-## Handling permission access
+## 处理权限访问
 
-In order to add a permission to a PermissionHandler you should use `PermissionHandler#addPermission(Permission)`.
+为了将权限添加到 PermissionHandler，你应该使用 `PermissionHandler#addPermission(Permission)`。
 
-To remove a permission, `PermissionHandler#removePermission(Permission)` and `PermissionHandler#removePermission(String)` are available.
+要移除权限，可以使用 `PermissionHandler#removePermission(Permission)` 和 `PermissionHandler#removePermission(String)`。
 
-## Checking permissions
+## 检查权限
 
-To verify if a PermissionHandler has a permission, you have the choice between simply checking if the handler has a permission with the same name, or verifying that the handler has both the permission name and the right data associated with it.
+要验证 PermissionHandler 是否具有某个权限，你可以选择简单地检查处理程序是否具有相同名称的权限，或者验证处理程序是否同时具有权限名称和正确的关联数据。
 
-To check if the handler has a permission with a specific name, `PermissionHandler#hasPermission(String)` should be used. If you want to verify that the handler has the right NBT data `PermissionHandler#hasPermission(String, PermissionVerifier)` is the right choice.
+要检查处理程序是否具有特定名称的权限，应该使用 `PermissionHandler#hasPermission(String)`。如果你想验证处理程序是否具有正确的 NBT 数据，`PermissionHandler#hasPermission(String, PermissionVerifier)` 是正确的选择。
 
-A [`PermissionVerifier`](https://minestom.github.io/Minestom/net/minestom/server/permission/PermissionVerifier.html) is a simple functional interface used to check if the given `NBTCompound` is valid.
+[`PermissionVerifier`](https://minestom.github.io/Minestom/net/minestom/server/permission/PermissionVerifier.html) 是一个简单的函数式接口，用于检查给定的 `NBTCompound` 是否有效。
 
-Alternatively, `PermissionHandler#hasPermission(Permission)` can be used. It does require both the permission name and the data to be equal.
+或者，可以使用 `PermissionHandler#hasPermission(Permission)`。它要求权限名称和数据都相等。
 
-## Adding permissions to players and checking them
+## 为玩家添加权限并检查它们
 
-In order to add a permission to a player, you will have to call the `Player#addPermission(Permission)` function, an example of proper usage would be 
+为了给玩家添加权限，你需要调用 `Player#addPermission(Permission)` 函数，正确使用的示例如下：
 
 ```java
 player.addPermission(new Permission("operator"));
 ```
 
-If you want to check, if a player has a permission, you can use the `Player#hasPermission(Permission)` function, here is an example of checking a permission from a command:
+如果你想检查玩家是否具有某个权限，可以使用 `Player#hasPermission(Permission)` 函数，以下是从命令中检查权限的示例：
 
 ```java
 public class StopCommand extends Command {
@@ -42,26 +42,26 @@ public class StopCommand extends Command {
 }
 ```
 
-## Permission wildcard matching
+## 权限通配符匹配
 
-Minestom supports wildcard matching for permissions.
-This means that if a player has a permission like `admin.*`, this will satisfy any checks for permissions that have the same format, with differing contents for the wildcard. e.g. `admin.tp` will return true.
+Minestom 支持权限的通配符匹配。
+这意味着如果玩家具有类似 `admin.*` 的权限，这将满足任何具有相同格式但通配符内容不同的权限检查。例如，`admin.tp` 将返回 true。
 
-Example:
+示例：
 ```java
-player.addPermission(new Permission("command.*")); // Gives the player every permission with the 'command.' prefix
+player.addPermission(new Permission("command.*")); // 给予玩家所有以 'command.' 为前缀的权限
 
-player.hasPermission(new Permission("command.gamemode")); // This returns true
+player.hasPermission(new Permission("command.gamemode")); // 这返回 true
 
-// Same thing goes for
-player.addPermission(new Permission("*")); // Gives the player every permission
+// 同样适用于
+player.addPermission(new Permission("*")); // 给予玩家所有权限
 
-player.hasPermission(new Permission("user.chat")); // returns true
-player.hasPermission(new Permission("3i359cvjm.sdfk239c")); // returns true
+player.hasPermission(new Permission("user.chat")); // 返回 true
+player.hasPermission(new Permission("3i359cvjm.sdfk239c")); // 返回 true
 ```
 
-## Permission serialisation
+## 权限序列化
 
-Nothing is automatically saved persistently in Minestom, permissions are not an exception.
+Minestom 中没有任何内容会自动持久保存，权限也不例外。
 
-Permissions must be serialized and deserialized back manually if you want such a feature. You are lucky since the `Permission` class can easily be interpreted as 2 strings, one being the permission name, and the second representing the optional data using `NBTCompound#toSNBT()` (and deserialized with `SNBTParser#parse()`).
+如果你想实现这样的功能，必须手动序列化和反序列化权限。幸运的是，`Permission` 类可以很容易地解释为两个字符串，一个是权限名称，另一个是使用 `NBTCompound#toSNBT()` 表示的可选数据（反序列化使用 `SNBTParser#parse()`）。

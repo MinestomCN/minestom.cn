@@ -1,31 +1,31 @@
 ---
-description: Explains how event nodes works under the hood
+description: 解释事件节点在底层的工作原理
 ---
 
-# Implementation
+# 实现
 
-Understanding what happens when an event is called or when a new node is added can help you to make better decisions, especially when desiring great performance.
+了解事件被调用或添加新节点时发生的情况可以帮助你做出更好的决策，尤其是在追求高性能时。
 
-## Listener handle
+## 监听器句柄
 
-A `ListenerHandle` represents direct access to an event type listeners, they are stored inside the node and must be retrieved for the listeners to be executed
+`ListenerHandle` 表示对事件类型监听器的直接访问，它们存储在节点中，必须检索才能执行监听器。
 
-`EventNode#call(Event)` is as simple as retrieving the handle (through a map lookup) and executing `ListenerHandle#call(Event)`. As you may have realized, you could completely avoid the map lookup by directly using the handle, hence why `EventNode#getHandle(Class<Event>)` exists!
+`EventNode#call(Event)` 非常简单，通过映射查找检索句柄并执行 `ListenerHandle#call(Event)`。你可能已经意识到，你可以完全避免映射查找，直接使用句柄，这就是 `EventNode#getHandle(Class<Event>)` 存在的原因！
 
-Keeping the handle in a field instead of doing map lookups for every event call may also help the JIT to entirely avoid the event object allocation in case where there are no listener.
+将句柄保存在字段中而不是每次事件调用时进行映射查找，也可能帮助JIT在没有任何监听器的情况下完全避免事件对象的分配。
 
-## Registration
+## 注册
 
-First and foremost, it is important to note that all registration (and methods touching the tree) are synchronized, it is not considered as a huge flaw since event calling is much more important. This however means that you should try to avoid temporary nodes/listeners as much as possible.
+首先，重要的是要注意所有注册（以及触及树的方法）都是同步的，这不被认为是一个巨大的缺陷，因为事件调用更为重要。然而，这意味着你应该尽可能避免临时节点/监听器。
 
-## Event calling
+## 事件调用
 
-Event calling is very simple to understand, it will first check if the listeners inside the handle are up-to-date (if not, loop through all of them to create the consumer) and run the said consumer.
+事件调用非常容易理解，它首先检查句柄中的监听器是否是最新的（如果不是，则遍历所有监听器以创建消费者）并运行该消费者。
 
-It is the reason why you should avoid adding listeners other than in your server init, because it will invalidate the associated handles.
+这就是为什么你应该避免在服务器初始化之外添加监听器，因为它会使关联的句柄失效。
 
-## Conclusion
+## 结论
 
-The event implementation has been heavily optimized for calling instead of utilities, which seems fair but must be well understood before attacking a high-performance server.
+事件实现已经针对调用而不是实用工具进行了大量优化，这似乎是公平的，但在攻击高性能服务器之前必须充分理解。
 
-For those interested, the code is available [here](https://github.com/Minestom/Minestom/blob/master/src/main/java/net/minestom/server/event/EventNodeImpl.java).
+感兴趣的人可以在这里查看代码：[EventNodeImpl.java](https://github.com/Minestom/Minestom/blob/master/src/main/java/net/minestom/server/event/EventNodeImpl.java)。

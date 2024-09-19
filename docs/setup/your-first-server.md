@@ -1,27 +1,27 @@
 ---
-description: Includes everything you need to have your first server running.
+description: 包括您运行第一个服务器所需的一切。
 ---
 
-# Your first server
+# 您的第一个服务器
 
-Some things are needed before being able to connect to your Minestom server.
+在能够连接到您的Minestom服务器之前，需要准备一些事情。
 
-- Initialize the server
-- Registering events/commands
-- Start the server at the specified port and address
+- 初始化服务器
+- 注册事件/命令
+- 在指定的端口和地址启动服务器
 
-Here is a correct example:
+以下是一个正确的示例：
 
 ::: tabs
 === Java
 
 ```java
 public static void main(String[] args) {
-    // Initialize the server
+    // 初始化服务器
     MinecraftServer minecraftServer = MinecraftServer.init();
 
-    // Register Events (set spawn instance, teleport player at spawn)
-    // Start the server
+    // 注册事件（设置出生实例，将玩家传送到出生点）
+    // 启动服务器
     minecraftServer.start("0.0.0.0", 25565);
 }
 ```
@@ -31,11 +31,11 @@ public static void main(String[] args) {
 
 ```kotlin
 fun main() {
-    // Initialize the server
+    // 初始化服务器
     val minecraftServer = MinecraftServer.init()
 
-    // Register Events (set spawn instance, teleport player at spawn)
-    // Start the server
+    // 注册事件（设置出生实例，将玩家传送到出生点）
+    // 启动服务器
     minecraftServer.start("0.0.0.0", 25565)
 }
 ```
@@ -43,15 +43,15 @@ fun main() {
 ===
 :::
 
-However even after those steps, you will not be able to connect, because we are missing an instance.
+然而，即使在这些步骤之后，您也无法连接，因为我们缺少一个实例。
 
-_Please check the_ [_instances_](/docs/world/instances) _and_ [_events_](/docs/feature/events) _pages if you have any questions about how to create/listen to one._
+_如果您对如何创建/监听实例有疑问，请查看_ [实例](/docs/world/instances) _和_ [事件](/docs/feature/events) _页面。_
 
 ::: tabs
 === Java
 
 ```java
-Instance instance = // create instance
+Instance instance = // 创建实例
 GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
 globalEventHandler.addListener(AsyncPlayerConfigurationEvent.class, event -> {
    event.setSpawningInstance(instance);
@@ -62,7 +62,7 @@ globalEventHandler.addListener(AsyncPlayerConfigurationEvent.class, event -> {
 === Kotlin
 
 ```kotlin
-val instance = // create instance
+val instance = // 创建实例
 val globalEventHandler = MinecraftServer.getGlobalEventHandler();
 globalEventHandler.addListener(AsyncPlayerConfigurationEvent::class.java) { event ->
     event.spawningInstance = instance
@@ -72,7 +72,7 @@ globalEventHandler.addListener(AsyncPlayerConfigurationEvent::class.java) { even
 ===
 :::
 
-Here is an example of a working Minestom server
+以下是一个运行中的Minestom服务器的示例
 
 ::: tabs
 === Java
@@ -90,17 +90,17 @@ import net.minestom.server.coordinate.Pos;
 
 public class MainDemo {
     public static void main(String[] args) {
-        // Initialization
+        // 初始化
         MinecraftServer minecraftServer = MinecraftServer.init();
 
-        // Create the instance
+        // 创建实例
         InstanceManager instanceManager = MinecraftServer.getInstanceManager();
         InstanceContainer instanceContainer = instanceManager.createInstanceContainer();
 
-        // Set the ChunkGenerator
+        // 设置ChunkGenerator
         instanceContainer.setGenerator(unit -> unit.modifier().fillHeight(0, 40, Block.GRASS_BLOCK));
 
-        // Add an event callback to specify the spawning instance (and the spawn position)
+        // 添加事件回调以指定出生实例（和出生位置）
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
         globalEventHandler.addListener(AsyncPlayerConfigurationEvent.class, event -> {
             final Player player = event.getPlayer();
@@ -108,7 +108,7 @@ public class MainDemo {
             player.setRespawnPoint(new Pos(0, 42, 0));
         });
 
-        // Start the server on port 25565
+        // 在端口25565上启动服务器
         minecraftServer.start("0.0.0.0", 25565);
     }
 }
@@ -125,19 +125,19 @@ import net.minestom.server.instance.block.Block
 import net.minestom.server.coordinate.Pos
 
 fun main() {
-    // Initialization
+    // 初始化
     val minecraftServer = MinecraftServer.init();
 
-    // Create the instance
+    // 创建实例
     val instanceManager = MinecraftServer.getInstanceManager();
     val instanceContainer = instanceManager.createInstanceContainer();
 
-    // Set the ChunkGenerator
+    // 设置ChunkGenerator
     instanceContainer.setGenerator { unit ->
         unit.modifier().fillHeight(0, 40, Block.GRASS_BLOCK)
     }
 
-    // Add an event callback to specify the spawning instance (and the spawn position)
+    // 添加事件回调以指定出生实例（和出生位置）
     val globalEventHandler = MinecraftServer.getGlobalEventHandler()
     globalEventHandler.addListener(AsyncPlayerConfigurationEvent::class.java) { event ->
         val player = event.getPlayer()
@@ -150,13 +150,13 @@ fun main() {
 ===
 :::
 
-Once you have created your Minestom server, you will probably want to build it as a single JAR.
+一旦您创建了Minestom服务器，您可能希望将其构建为单个JAR。
 
-## Building the server JAR (Gradle)
+## 构建服务器JAR（Gradle）
 
-This can be achieved with the Gradle `shadow` plugin. You can find the full documentation for this plugin [here](https://gradleup.com/shadow/).
+这可以通过Gradle的`shadow`插件实现。您可以在[这里](https://gradleup.com/shadow/)找到这个插件的完整文档。
 
-First, let's add the `shadow` plugin to our Gradle project.
+首先，让我们将`shadow`插件添加到我们的Gradle项目中。
 
 ::: tabs
 === Gradle (Groovy)
@@ -176,9 +176,9 @@ plugins {
 ```
 
 :::
-With all of this done, all we need to do is run the `shadowJar` task to create a working uber (fat) jar for Gradle! (The jar will be put in `/build/libs/` by default).
+完成所有这些后，我们只需要运行`shadowJar`任务即可为Gradle创建一个工作的uber（胖）jar！（默认情况下，jar将放在`/build/libs/`中）。
 
-Here is a complete `build.gradle`/`build.gradle.kts` file with a few extra niceities added.
+以下是一个添加了一些额外功能的完整`build.gradle`/`build.gradle.kts`文件。
 
 :::tabs
 === Gradle (Groovy)
@@ -197,20 +197,20 @@ repositories {
 }
 
 dependencies {
-    // Change this to the latest version
+    // 将其更改为最新版本
     implementation 'net.minestom:minestom-snapshots:<version>'
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21)) // Minestom has a minimum Java version of 21
+        languageVersion.set(JavaLanguageVersion.of(21)) // Minestom的最低Java版本为21
     }
 }
 
 tasks {
     jar {
         manifest {
-            attributes["Main-Class"] = "org.example.Main" // Change this to your main class
+            attributes["Main-Class"] = "org.example.Main" // 将其更改为您的主类
         }
     }
 
@@ -219,7 +219,7 @@ tasks {
     }
     shadowJar {
         mergeServiceFiles()
-        archiveClassifier.set("") // Prevent the -all suffix on the shadowjar file.
+        archiveClassifier.set("") // 阻止在shadowjar文件上添加-all后缀。
     }
 }
 
@@ -241,20 +241,20 @@ repositories {
 }
 
 dependencies {
-    // Change this to the latest version
+    // 将其更改为最新版本
     implementation("net.minestom:minestom-snapshots:<version>")
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21)) // Minestom has a minimum Java version of 21
+        languageVersion.set(JavaLanguageVersion.of(21)) // Minestom的最低Java版本为21
     }
 }
 
 tasks {
     jar {
         manifest {
-            attributes["Main-Class"] = "org.example.Main" // Change this to your main class
+            attributes["Main-Class"] = "org.example.Main" // 将其更改为您的主类
         }
     }
 
@@ -263,7 +263,7 @@ tasks {
     }
     shadowJar {
         mergeServiceFiles()
-        archiveClassifier.set("") // Prevent the -all suffix on the shadowjar file.
+        archiveClassifier.set("") // 阻止在shadowjar文件上添加-all后缀。
     }
 }
 
@@ -271,13 +271,13 @@ tasks {
 
 :::
 
-## Building the server JAR (Maven)
+## 构建服务器JAR（Maven）
 
-Start by adding a execution property and the `jar-with-dependencies` tag for our jar (It will be outputted in `/target/`).
+首先，为我们的jar添加一个执行属性和`jar-with-dependencies`标签（它将输出在`/target/`中）。
 
-You can use the `assembly` plugin to build the jar using the `clean package` command. Documentation on the plugin can be found [here](https://maven.apache.org/plugins/maven-assembly-plugin/).
+您可以使用`assembly`插件使用`clean package`命令构建jar。该插件的文档可以在[这里](https://maven.apache.org/plugins/maven-assembly-plugin/)找到。
 
-Here is a complete `pom.xml` file with a few extra niceities added.
+以下是一个添加了一些额外功能的完整`pom.xml`文件。
 
 ```xml
 <project>
@@ -286,7 +286,7 @@ Here is a complete `pom.xml` file with a few extra niceities added.
     <version>1.0.0</version>
 
     <properties>
-        <java.version>21</java.version> <!--Minestom has a minimum Java version of 21-->
+        <java.version>21</java.version> <!--Minestom的最低Java版本为21-->
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -296,7 +296,7 @@ Here is a complete `pom.xml` file with a few extra niceities added.
         <dependency>
             <groupId>net.minestom</groupId>
             <artifactId>minestom-snapshots</artifactId>
-            <version>version</version> <!--Change this to the Minestom version you are using-->
+            <version>version</version> <!--将此更改为您使用的Minestom版本-->
         </dependency>
     </dependencies>
 
@@ -316,14 +316,14 @@ Here is a complete `pom.xml` file with a few extra niceities added.
                     <execution>
                         <phase>package</phase>
                         <goals>
-                            <goal>single</goal> <!--Prevent dependecies from shading multiple times-->
+                            <goal>single</goal> <!--防止依赖项多次阴影化-->
                         </goals>
                     </execution>
                 </executions>
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.example.Main</mainClass> <!--Change this to your main class-->
+                            <mainClass>org.example.Main</mainClass> <!--将其更改为您的主类-->
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -335,6 +335,8 @@ Here is a complete `pom.xml` file with a few extra niceities added.
         </plugins>
     </build>
 </project>
-```
 
-<sub>_Example by [AlexDerProGamer](https://github.com/AlexDerProGamer)_</sub>
+```
+<sub>_示例由 [AlexDerProGamer](https://github.com/AlexDerProGamer) 提供_</sub>
+
+<sub>_汉化由 [CyanBukkit](https://www.cyanbukkit.net) 提供_</sub>

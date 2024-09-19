@@ -1,23 +1,22 @@
 ---
 description: >-
-  This page describes how to load a world folder using AnvilLoader
+  本页描述了如何使用AnvilLoader加载一个世界文件夹
 ---
 
-## Loading a world using AnvilLoader
+## 使用AnvilLoader加载世界
 
-In order to load a world into an instance, use the `InstanceContainer#setChunkLoader(IChunkLoader)` function.
+为了将一个世界加载到实例中，请使用 `InstanceContainer#setChunkLoader(IChunkLoader)` 函数。
 
-An example of using this method to load a world is:
+使用此方法加载一个世界的示例如下：
 ```java
 InstanceContainer.setChunkLoader(new AnvilLoader("worlds/world"));
 ```
 
-This will load the world inside the `worlds/world` directory into the InstanceContainer, allowing you to use the instance as before but having the world loaded inside.
+这将把 `worlds/world` 目录内的世界加载到InstanceContainer中，允许你像以前一样使用实例，但世界已经加载在其中。
 
-In order to load a world, the world folder will only need the `/region` folder, as it contains the block data.
+为了加载一个世界，世界文件夹只需要 `/region` 文件夹，因为它包含区块数据。
 
-## Saving a world
+## 保存世界
 
-In order to save a world, you will have to use the `InstanceContainer#saveChunksToStorage()` function, 
-this will only work if you have previously loaded a world into the instance using AnvilLoader.
-
+为了保存一个世界，你需要使用 `InstanceContainer#saveChunksToStorage()` 函数，
+这只会在你之前使用AnvilLoader将世界加载到实例中时才有效。

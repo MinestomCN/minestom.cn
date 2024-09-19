@@ -1,19 +1,19 @@
 ---
-description: Allowing the server to show up in the LAN section of the server list.
+description: 允许服务器在服务器列表的局域网部分显示。
 ---
 
-# Open to LAN
+# 开放局域网
 
-By sending a series of packets to a multicast address, Minestom provides the ability to mimic being a single player world that is opened to LAN. This will make it show up in the server list of all open Minecraft instances running in your local network below the "_Scanning for games on your local network_" section.
+通过向多播地址发送一系列数据包，Minestom 提供了模拟单人世界开放局域网的能力。这将使其在所有本地网络中运行的 Minecraft 实例的服务器列表中显示在 "_正在扫描本地网络中的游戏_" 部分下方。
 
-This does **not** actually open the server to anywhere other than your local network and it is **not** a replacement for port forwarding or a proper network setup. It is mainly designed as a fun feature that can be useful during testing if you're spinning up a dynamic amount of servers and don't want to manually connect to each one of them.
+这**并不**实际将服务器开放到本地网络之外，也**不是**端口转发或正确网络设置的替代品。它主要设计为一个有趣的功能，如果你在测试时动态启动了多个服务器，并且不想手动连接到每一个服务器，这个功能可能会很有用。
 
-## Setup
+## 设置
 
-To start sending the required packets, you can simply run `OpenToLAN.open()` anywhere. This will send the ping every 1.5 seconds and call the `ServerListPingEvent` with the `OPEN_TO_LAN` ping type for each outgoing ping.
+要开始发送所需的数据包，你可以在任何地方简单地运行 `OpenToLAN.open()`。这将每隔 1.5 秒发送一次 ping，并为每个发出的 ping 调用 `ServerListPingEvent`，ping 类型为 `OPEN_TO_LAN`。
 
-To modify how often the event is called and the pings are sent, pass in a `OpenToLANConfig` in the `open` method. This is a simple builder-style class which lets you configure various elements of the system.
+要修改事件调用和 ping 发送的频率，可以在 `open` 方法中传入一个 `OpenToLANConfig`。这是一个简单的构建器风格的类，允许你配置系统的各个元素。
 
-## Modifying the description
+## 修改描述
 
-The description is set using the `ServerListPingEvent`. For more information on this, see the [server list ping](events/server-list-ping) page.
+描述是使用 `ServerListPingEvent` 设置的。有关更多信息，请参阅 [服务器列表 ping](events/server-list-ping) 页面。

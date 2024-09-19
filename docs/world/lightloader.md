@@ -1,20 +1,20 @@
 ---
 description: >-
-  This page describes how to add lighting to a minestom instance
+  本页描述如何为Minestom实例添加光照
 ---
 
-## Setting the chunk supplier
+## 设置区块供应商
 
-To use the LightingChunk class, you can call the `InstanceContainer#setChunkSupplier(LightingChunk::new)` method.
-By default, lighting will be generated for chunks when they are sent to the client.
+要使用 `LightingChunk` 类，可以调用 `InstanceContainer#setChunkSupplier(LightingChunk::new)` 方法。
+默认情况下，当区块发送给客户端时，光照将会生成。
 
-An example of using this method:
+使用此方法的示例：
 ```java
 InstanceContainer.setChunkSupplier(LightingChunk::new);
 ```
-## Precalculating Lighting
+## 预计算光照
 
-To load preload chunks and calculate lighting before players join, you can use the following code:
+要在玩家加入之前预加载区块并计算光照，可以使用以下代码：
 
 ```java
 var chunks = new ArrayList<CompletableFuture<Chunk>>();

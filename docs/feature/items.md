@@ -1,52 +1,52 @@
-# Items
+# 物品
 
-## Overview
+## 概述
 
-Items in Minestom are **immutable**, meaning that an `ItemStack` cannot change after being built. This provides us many benefits:
+Minestom 中的物品是**不可变的**，这意味着 `ItemStack` 一旦构建就不能更改。这为我们提供了许多好处：
 
-- Thread safety, as you cannot change the same object from multiple threads.
-- No side effects where a change to an item would modify all inventories where the same object is present.
-- Ability to reuse `ItemStack` in multiple places. For example, if all your players start with the same set of items, you could just store those as constants and add them to each player inventory to avoid a lot of allocation.
-- Related to the second point, it allows us to internally cache items packet (eg: window packet) to keep improving performance
+- 线程安全，因为你不能从多个线程更改同一个对象。
+- 没有副作用，即对物品的更改不会修改所有包含相同对象的库存。
+- 能够在多个地方重用 `ItemStack`。例如，如果你的所有玩家都从同一组物品开始，你可以将这些物品存储为常量，并将它们添加到每个玩家的库存中，以避免大量分配。
+- 与第二点相关，它允许我们内部缓存物品数据包（例如：窗口数据包）以保持性能提升。
 
 ## API
 
 ::: warning
-In previous versions of Minestom, methods such as `displayName` existed, since they were part of item meta. In 1.20.5, Mojang switched to a component system, which now requires us to use ItemComponent along with a value.
+在 Minestom 的早期版本中，存在诸如 `displayName` 等方法，因为它们是物品元数据的一部分。在 1.20.5 中，Mojang 切换到了组件系统，现在需要我们使用 ItemComponent 和值。
 :::
 
 ```java
-// Constant air item, should be used instead of 'null
+// 常量空气物品，应使用而不是 'null
 ItemStack air = ItemStack.AIR;
-// Item with amount sets to 1
+// 数量设置为 1 的物品
 ItemStack stone = ItemStack.of(Material.STONE);
-// Item with custom amount
+// 自定义数量的物品
 ItemStack stoneStack = ItemStack.of(Material.STONE, 64);
 ```
 
-However, as items are immutable, creating complex objects require using a builder:
+然而，由于物品是不可变的，创建复杂对象需要使用构建器：
 
 ```java
 ItemStack item = ItemStack.builder(Material.STONE)
-        .set(ItemComponent.ITEM_NAME, Component.text("Item name!", NamedTextColor.GREEN))
-        .set(ItemComponent.LORE, Arrays.asList(Component.text("Line 1"), Component.text("Line 2")))
+        .set(ItemComponent.ITEM_NAME, Component.text("物品名称!", NamedTextColor.GREEN))
+        .set(ItemComponent.LORE, Arrays.asList(Component.text("第一行"), Component.text("第二行")))
         .build();
 ```
 
-Methods exist for creating copies of items as well:
+还存在创建物品副本的方法：
 
 ```java
-// Set the amount to 5
+// 将数量设置为 5
 item = item.withAmount(5);
-// Set the amount based on the current one
+// 基于当前数量设置数量
 item = item.withAmount(amount -> amount * 2);
-// Same with various other fields
-item = item.with(ItemComponent.ITEM_NAME, Component.text("New item name!"));
+// 其他字段同理
+item = item.with(ItemComponent.ITEM_NAME, Component.text("新物品名称!"));
 
-// Start rebuilding the item
-// More performant than the above if you need to modify multiple fields
+// 开始重建物品
+// 如果你需要修改多个字段，这比上面的方法更高效
 item = item.with(builder -> {
         builder.amount(32)
-                .set(ItemComponent.ITEM_NAME, Component.text("Again..."));
+                .set(ItemComponent.ITEM_NAME, Component.text("再次..."));
         });
 ```

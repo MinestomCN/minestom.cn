@@ -1,33 +1,32 @@
 ---
 description: >-
-  Describes how ticks are executed internally and how objects can be acquired
-  safely
+  描述了内部如何执行tick以及如何安全地获取对象
 ---
 
-# The inside
+# 内部机制
 
-## The inside
+## 内部机制
 
-I will begin by saying that you do not need to know anything written here to utilize the acquirable API. It can however teach you about our code structure and how it achieves thread-safety. Be sure to read all the previous pages in order to properly understand everything said here.
+首先，我想说的是，您不需要了解这里写的任何内容来使用acquirable API。然而，它可以教您关于我们的代码结构以及如何实现线程安全。请确保阅读所有前面的页面，以便正确理解这里所说的一切。
 
-### Tick architecture
+### Tick架构
 
-Ticks are separated in multiple batches. After those are created, every batch gets assigned to a thread from the ThreadDispatcher thread pool.
+Ticks被分为多个批次。在创建这些批次后，每个批次都会被分配给ThreadDispatcher线程池中的一个线程。
 
-Threads are assigned depending on the `ThreadProvider`, a single thread is used by default.
+线程的分配取决于`ThreadProvider`，默认情况下使用单个线程。
 
-After all this, threads start and the `UpdateManager` will wait until all of them are done. The cycle continues until the server stops.
+完成所有这些后，线程开始运行，`UpdateManager`将等待直到所有线程完成。这个循环会一直持续到服务器停止。
 
-### Object acquisition
+### 对象获取
 
-After a batch gets assigned to a thread, the same happens to every element added to it. Meaning that each entity knows in which thread it will be ticked before it even happens!
+在批次被分配给线程后，同样的事情也会发生在添加到批次中的每个元素上。这意味着每个实体在实际发生之前就知道它将在哪个线程中被tick！
 
-What advantage does it have? It allows us to know if the object in question can be safely accessed! When you execute Acquirable#acquire, it will first check if the current thread is the same as the one where the object to acquire will be ticked, meaning no synchronization required, the overhead in this case is a simple `Thread#currentThread` call.
+这有什么优势呢？它允许我们知道是否可以安全地访问相关对象！当您执行`Acquirable#acquire`时，它首先会检查当前线程是否与对象将被tick的线程相同，这意味着不需要同步，在这种情况下，开销只是一个简单的`Thread#currentThread`调用。
 
-This is obviously the best scenario, but it does not always happen. How does the system react if the two threads are different? Well firstly it will signal to the object's thread that an acquisition needs to happen and then block the current thread, and secondly, it will wait for the signaled thread to handle the acquisition. Acquisition signals are checked at the start of every entity tick, and at the end of the thread tick execution.
+这显然是最佳场景，但并不总是发生。如果两个线程不同，系统会如何反应？首先，它会向对象的线程发出需要获取的信号，然后阻塞当前线程，其次，它会等待被信号的线程处理获取。获取信号在每个实体tick的开始和线程tick执行的结束时检查。
 
-During acquisition handling, the thread is blocked until all of them are processed and can then continue its execution safely.
+在获取处理期间，线程会被阻塞，直到所有获取都处理完毕，然后才能安全地继续执行。
 
-### Conclusion
+### 结论
 
-Nothing is magical, and this API is not an exception. It has the potential to make your application faster when acquisitions are controlled (to limit synchronization) and with a `ThreadProvider` specific to your need. If you want to have one world per player, then using one batch per `Instance` is probably the best solution. If you have a very precise pattern where every 3 chunks are completely independent of each other, manage your batches in this direction!
+没有什么是神奇的，这个API也不例外。它在获取受到控制（以限制同步）并且使用特定于您需求的`ThreadProvider`时，有可能使您的应用程序更快。如果您希望每个玩家有一个世界，那么为每个`Instance`使用一个批次可能是最佳解决方案。如果您有一个非常精确的模式，其中每3个区块完全独立于其他区块，请按此方向管理您的批次！
