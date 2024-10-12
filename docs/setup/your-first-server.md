@@ -1,10 +1,10 @@
 ---
-description: 包括您运行第一个服务器所需的一切。
+description: 包括了让你的第一个服务器运行所需的一切。
 ---
 
-# 您的第一个服务器
+# 你的第一台服务器
 
-在能够连接到您的Minestom服务器之前，需要准备一些事情。
+在能够连接到你的 Minestom 服务器之前，需要一些步骤。
 
 - 初始化服务器
 - 注册事件/命令
@@ -20,7 +20,7 @@ public static void main(String[] args) {
     // 初始化服务器
     MinecraftServer minecraftServer = MinecraftServer.init();
 
-    // 注册事件（设置出生实例，将玩家传送到出生点）
+    // 注册事件（设置出生点实例，将玩家传送到出生点）
     // 启动服务器
     minecraftServer.start("0.0.0.0", 25565);
 }
@@ -34,7 +34,7 @@ fun main() {
     // 初始化服务器
     val minecraftServer = MinecraftServer.init()
 
-    // 注册事件（设置出生实例，将玩家传送到出生点）
+    // 注册事件（设置出生点实例，将玩家传送到出生点）
     // 启动服务器
     minecraftServer.start("0.0.0.0", 25565)
 }
@@ -43,9 +43,9 @@ fun main() {
 ===
 :::
 
-然而，即使在这些步骤之后，您也无法连接，因为我们缺少一个实例。
+然而，即使在这些步骤之后，你仍然无法连接，因为我们缺少一个实例。
 
-_如果您对如何创建/监听实例有疑问，请查看_ [实例](/docs/world/instances) _和_ [事件](/docs/feature/events) _页面。_
+_如果你对如何创建/监听实例有疑问，请查看_ [_instances_](/docs/world/instances) _和_ [_events_](/docs/feature/events) _页面。_
 
 ::: tabs
 === Java
@@ -72,7 +72,7 @@ globalEventHandler.addListener(AsyncPlayerConfigurationEvent::class.java) { even
 ===
 :::
 
-以下是一个运行中的Minestom服务器的示例
+这里有一个工作的 Minestom 服务器的示例
 
 ::: tabs
 === Java
@@ -97,7 +97,7 @@ public class MainDemo {
         InstanceManager instanceManager = MinecraftServer.getInstanceManager();
         InstanceContainer instanceContainer = instanceManager.createInstanceContainer();
 
-        // 设置ChunkGenerator
+        // 设置 ChunkGenerator
         instanceContainer.setGenerator(unit -> unit.modifier().fillHeight(0, 40, Block.GRASS_BLOCK));
 
         // 添加事件回调以指定出生实例（和出生位置）
@@ -108,7 +108,7 @@ public class MainDemo {
             player.setRespawnPoint(new Pos(0, 42, 0));
         });
 
-        // 在端口25565上启动服务器
+        // 在端口 25565 上启动服务器
         minecraftServer.start("0.0.0.0", 25565);
     }
 }
@@ -123,16 +123,17 @@ package demo
 import net.minestom.server.MinecraftServer
 import net.minestom.server.instance.block.Block
 import net.minestom.server.coordinate.Pos
+import net.minestom.server.event.player.AsyncPlayerConfigurationEvent
 
 fun main() {
     // 初始化
-    val minecraftServer = MinecraftServer.init();
+    val minecraftServer = MinecraftServer.init()
 
     // 创建实例
-    val instanceManager = MinecraftServer.getInstanceManager();
-    val instanceContainer = instanceManager.createInstanceContainer();
+    val instanceManager = MinecraftServer.getInstanceManager()
+    val instanceContainer = instanceManager.createInstanceContainer()
 
-    // 设置ChunkGenerator
+    // 设置 ChunkGenerator
     instanceContainer.setGenerator { unit ->
         unit.modifier().fillHeight(0, 40, Block.GRASS_BLOCK)
     }
@@ -144,19 +145,21 @@ fun main() {
         event.spawningInstance = instanceContainer
         player.respawnPoint = Pos(0.0, 42.0, 0.0)
     }
+
+    minecraftServer.start("0.0.0.0", 25565)
 }
 ```
 
 ===
 :::
 
-一旦您创建了Minestom服务器，您可能希望将其构建为单个JAR。
+一旦你创建了你的 Minestom 服务器，你可能会想将其构建为一个单独的 JAR 文件。
 
-## 构建服务器JAR（Gradle）
+## 构建服务器 JAR (Gradle)
 
-这可以通过Gradle的`shadow`插件实现。您可以在[这里](https://gradleup.com/shadow/)找到这个插件的完整文档。
+这可以通过 Gradle 的 `shadow` 插件实现。你可以在这个 [链接](https://gradleup.com/shadow/) 找到这个插件的完整文档。
 
-首先，让我们将`shadow`插件添加到我们的Gradle项目中。
+首先，让我们将 `shadow` 插件添加到我们的 Gradle 项目中。
 
 ::: tabs
 === Gradle (Groovy)
@@ -167,6 +170,7 @@ plugins {
 }
 ```
 
+===
 === Gradle (Kotlin)
 
 ```kotlin
@@ -175,12 +179,13 @@ plugins {
 }
 ```
 
+===
 :::
-完成所有这些后，我们只需要运行`shadowJar`任务即可为Gradle创建一个工作的uber（胖）jar！（默认情况下，jar将放在`/build/libs/`中）。
+完成所有这些后，我们只需要运行 `shadowJar` 任务就可以为 Gradle 创建一个工作的正常（胖）jar 文件了！（默认情况下，jar 文件会被放在 `/build/libs/` 目录下）。
 
-以下是一个添加了一些额外功能的完整`build.gradle`/`build.gradle.kts`文件。
+这里是一个完整的 `build.gradle`/`build.gradle.kts` 文件，添加了一些额外的便利功能。
 
-:::tabs
+::: tabs
 === Gradle (Groovy)
 
 ```groovy
@@ -197,20 +202,20 @@ repositories {
 }
 
 dependencies {
-    // 将其更改为最新版本
+    // 将这个更改为最新版本
     implementation 'net.minestom:minestom-snapshots:<version>'
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21)) // Minestom的最低Java版本为21
+        languageVersion.set(JavaLanguageVersion.of(21)) // Minestom 的最低 Java 版本是 21
     }
 }
 
 tasks {
     jar {
         manifest {
-            attributes["Main-Class"] = "org.example.Main" // 将其更改为您的主类
+            attributes["Main-Class"] = "org.example.Main" // 将这个更改为你的主类
         }
     }
 
@@ -219,12 +224,13 @@ tasks {
     }
     shadowJar {
         mergeServiceFiles()
-        archiveClassifier.set("") // 阻止在shadowjar文件上添加-all后缀。
+        archiveClassifier.set("") // 防止在 shadowjar 文件上添加 -all 后缀。
     }
 }
 
 ```
 
+===
 === Gradle (Kotlin)
 
 ```kts
@@ -241,20 +247,20 @@ repositories {
 }
 
 dependencies {
-    // 将其更改为最新版本
+    // 将这个更改为最新版本
     implementation("net.minestom:minestom-snapshots:<version>")
 }
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21)) // Minestom的最低Java版本为21
+        languageVersion.set(JavaLanguageVersion.of(21)) // Minestom 的最低 Java 版本是 21
     }
 }
 
 tasks {
     jar {
         manifest {
-            attributes["Main-Class"] = "org.example.Main" // 将其更改为您的主类
+            attributes["Main-Class"] = "org.example.Main" // 将这个更改为你的主类
         }
     }
 
@@ -263,21 +269,22 @@ tasks {
     }
     shadowJar {
         mergeServiceFiles()
-        archiveClassifier.set("") // 阻止在shadowjar文件上添加-all后缀。
+        archiveClassifier.set("") // 防止在 shadowjar 文件上添加 -all 后缀。
     }
 }
 
 ```
 
+===
 :::
 
-## 构建服务器JAR（Maven）
+## 构建服务器 JAR (Maven)
 
-首先，为我们的jar添加一个执行属性和`jar-with-dependencies`标签（它将输出在`/target/`中）。
+首先，为我们的 jar 添加一个执行属性和 `jar-with-dependencies` 标签（它将被输出在 `/target/` 目录下）。
 
-您可以使用`assembly`插件使用`clean package`命令构建jar。该插件的文档可以在[这里](https://maven.apache.org/plugins/maven-assembly-plugin/)找到。
+你可以使用 `assembly` 插件来构建 jar，使用 `clean package` 命令。该插件的文档可以在 [这里](https://maven.apache.org/plugins/maven-assembly-plugin/) 找到。
 
-以下是一个添加了一些额外功能的完整`pom.xml`文件。
+这里是一个完整的 `pom.xml` 文件，添加了一些额外的便利功能。
 
 ```xml
 <project>
@@ -286,7 +293,7 @@ tasks {
     <version>1.0.0</version>
 
     <properties>
-        <java.version>21</java.version> <!--Minestom的最低Java版本为21-->
+        <java.version>21</java.version> <!--Minestom 的最低 Java 版本是 21-->
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -296,7 +303,7 @@ tasks {
         <dependency>
             <groupId>net.minestom</groupId>
             <artifactId>minestom-snapshots</artifactId>
-            <version>version</version> <!--将此更改为您使用的Minestom版本-->
+            <version>version</version> <!--将这个更改为你使用的 Minestom 版本-->
         </dependency>
     </dependencies>
 
@@ -323,7 +330,7 @@ tasks {
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.example.Main</mainClass> <!--将其更改为您的主类-->
+                            <mainClass>org.example.Main</mainClass> <!--将这个更改为你的主类-->
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -335,8 +342,7 @@ tasks {
         </plugins>
     </build>
 </project>
-
 ```
+
 <sub>_示例由 [AlexDerProGamer](https://github.com/AlexDerProGamer) 提供_</sub>
 
-<sub>_汉化由 [CyanBukkit](https://www.cyanbukkit.net) 提供_</sub>
