@@ -16,3 +16,21 @@ connectionManager.setUuidProvider((playerConnection, username) -> {
 ::: warning
 如果你启用了 IP 转发（Velocity/Bungee），UUID 提供者是不必要的，并且不会工作
 :::
+
+## 启用Mojang认证
+
+如果你想在服务器启动后启用Mojang认证，可以使用以下代码：
+启用Mojang认证将验证会话令牌，设置玩家的皮肤，并提供一个“可信”的UUID。
+你可以通过`MojangAuth#init`来启用这个功能。
+
+```java
+public static void main(String[] args) {
+    
+    MinecraftServer minecraftServer = MinecraftServer.init();
+
+    // 启用Mojang认证
+    MojangAuth.init();
+    
+    minecraftServer.start("0.0.0.0", 25565);
+}
+```
