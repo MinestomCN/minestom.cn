@@ -144,6 +144,12 @@ export default defineConfig({
             { text: "对局域网开放", link: "/docs/feature/open-to-lan" },
           ],
         },
+        {
+          "text": "兼容性",
+          "items": [
+            { "text": "代理", "link": "/docs/compatibility/proxies" },
+          ]
+        }
       ],
     },
     socialLinks: [

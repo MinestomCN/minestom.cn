@@ -35,4 +35,4 @@ features:
     details: 在Minestom中，net.minecraft.server已成为过去。协议已完全实现，不混淆任何代码，创造更快更愉快的体验。
 ---
 
-&copy; 2024 MineStom的教程. [黑ICP备2021003886号-5](http://www.miitbeian.gov.cn)    
+&copy; 2024 MineStom的教程. [黑ICP备2021003886号-5](https://beian.miit.gov.cn/#/Integrated/index)    
