@@ -17,6 +17,9 @@ hero:
       text: GitHub
       link: https://github.com/Minestom/Minestom 
     - theme: alt
+      text: Ai开发助手
+      link: https://www.coze.cn/s/iPLGxbQD/
+    - theme: alt
       text: QQ群
       link: http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=7yyVsIraQlY_BaPbw_IwAesluUM6yFg5&authKey=gCGOk5XQvyVD9IzadwWpuVYOIcD7zWeuByIPX2ck1Ntj5ki00jZ3%2FIBO%2Baz3M%2FgD&noverify=0&group_code=927904646
 

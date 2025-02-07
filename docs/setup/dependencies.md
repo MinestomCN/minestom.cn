@@ -4,7 +4,7 @@ description: 描述了如何在您的项目中添加Minestom作为依赖项。
 
 <script setup>
 import axios from "axios";
-import { ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue';
 
 const version = ref("<--version-->");
 
@@ -18,7 +18,7 @@ const fetchVersion = async () => {
   } catch (error) {
     console.error("Error fetching libraries:", error);
   }
-}
+};
 
 onMounted(() => {
   fetchVersion();
@@ -91,3 +91,9 @@ dependencies {
 版本字符串始终是提交哈希的前10个字符。您可以在[这里](https://github.com/Minestom/Minestom/commits/master/)查看提交。
 
 Minestom 的 PR 分支也会发布，可以用来预览即将推出的功能。对于这些分支，版本字符串是 `{branch}-{first 10 chars of commit}`。例如，1_20_5 分支可以使用版本字符串 `1_20_5-dd965f4bb8`。
+
+
+
+::: warning
+在新版升级后 依赖格式为直接无版本号显示 `implementation 'net.minestom:minestom-snapshots:{first 10 chars of commit}'`，这样才可以把前置拉过来的
+:::

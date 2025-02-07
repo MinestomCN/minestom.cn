@@ -24,7 +24,7 @@ export default defineConfig({
     logo: "/minestom-logo.png",
     nav: [
       { text: "库", link: "/libraries" },
-      // { text: "展示", link: "/showcase/introduction" },
+      { text: "Ai助手", link: "https://www.coze.cn/s/iPLGxbQD/" },
       { text: "教程百科", link: "/docs/introduction" },
       { text: "Javadoc", link: "https://javadoc.minestom.net"  },
     ],
