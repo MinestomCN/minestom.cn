@@ -128,7 +128,6 @@ export default defineConfig({
             { text: "库存", link: "/docs/feature/inventories" },
             { text: "玩家 UUID", link: "/docs/feature/player-uuid" },
             { text: "玩家皮肤", link: "/docs/feature/player-skin" },
-            { text: "权限", link: "/docs/feature/permissions" },
             { text: "成就", link: "/docs/feature/advancements" },
             {
               text: "地图渲染",
@@ -148,6 +147,7 @@ export default defineConfig({
           "text": "兼容性",
           "items": [
             { "text": "代理", "link": "/docs/compatibility/proxies" },
+            { "text": "不支持的版本", "link": "/docs/compatibility/unsupported-versions" }
           ]
         }
       ],

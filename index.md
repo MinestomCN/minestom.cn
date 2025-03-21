@@ -38,4 +38,8 @@ features:
     details: 在Minestom中，net.minecraft.server已成为过去。协议已完全实现，不混淆任何代码，创造更快更愉快的体验。
 ---
 
+
+[![点击访问](https://www.go176.net/content/uploadfile/202309/b5111695853313.png)](https://awacode.top/lyxy)
+
+
 &copy; 2024 MineStom的教程. [黑ICP备2021003886号-5](https://beian.miit.gov.cn/#/Integrated/index)    
