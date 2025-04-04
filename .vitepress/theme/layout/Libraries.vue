@@ -67,7 +67,7 @@ export default {
         async fetchLibraries() {
             this.loading = true;
             try {
-                const response = await axios.get("http://127.0.0.1:9990/api/libraries");
+                const response = await axios.get("https://api.minestom.cn/api/libraries");
                 if (!Array.isArray(response.data)) {
                     console.error(
                         "从服务器请求库时返回格式错误",
