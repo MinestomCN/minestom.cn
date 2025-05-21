@@ -1,7 +1,21 @@
-# 介绍
+<style>
+  .minestom-gradient-text {
+    background: linear-gradient(to right, #FF6C32, #FF76B6);
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+</style>
 
-这个教程百科的目标是让你熟悉我们的库。这里描述了最重要的概念，但并非全部。如果你想帮助开发这个库或者有任何问题，可以联系 Minestom 的贡献者之一。
+# 欢迎来到[Minestom]{.minestom-gradient-text}
 
-项目的 Javadoc 目前托管在 [这里](https://minestom.github.io/Minestom/)。此外，国际总Minestorm有一个 [Discord 服务器](https://discord.gg/pkFRvqB)，中国国区由CyanBukkit代理 [QQ社区群](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=7yyVsIraQlY_BaPbw_IwAesluUM6yFg5&authKey=gCGOk5XQvyVD9IzadwWpuVYOIcD7zWeuByIPX2ck1Ntj5ki00jZ3%2FIBO%2Baz3M%2FgD&noverify=0&group_code=927904646) 你可以在这些地方询问任何你想知道的问题。
+---
 
-如果你不知道你是如何来到这里的，Minestom 是一个完全没有使用 Mojang 代码的 Minecraft 服务器软件的完整重写。你可以在 [这里](https://github.com/Minestom/Minestom) 了解更多关于它的信息。
+本Wiki的目标是帮助你熟悉我们的库。这里描述了最重要的概念，但仍有许多内容未被涵盖。如果你想参与库的开发或有任何问题，可以联系Minestom的贡献者。
+
+除了Wiki之外，我们强烈建议查阅我们的[Javadocs](https://javadoc.minestom.net)并加入我们的[Discord服务器](https://discord.com/invite/pkFRvqB)。
+
+如果你不知道为什么会来到这里，Minestom是一个完全重写的Minecraft服务器软件，不包含任何Mojang代码。你可以在[这里](https://github.com/Minestom/Minestom)了解更多信息。
+
+:::alert note
+虽然我们会随着变化更新Wiki，但它并不总是最新的。如果你发现有过时或不正确的内容，我们随时欢迎Pull Request！
+:::

@@ -18,7 +18,7 @@ PlayerSkin skinFromUUID = PlayerSkin.fromUuid(MOJANG_UUID_AS_STRING);
 PlayerSkin skinFromUsername = PlayerSkin.fromUsername("Notch");
 ```
 
-::: warning
+:::alert warning
 这些方法直接向Mojang API发出请求，建议缓存这些值。
 :::
 

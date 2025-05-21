@@ -56,7 +56,7 @@ NBTCompound nbt = tnt.nbt();
 
 标签数据可以被序列化，并且会自动保存到磁盘上。
 
-::: warning
+:::alert  warning
 标签 `id`, `x`, `y`, `z` 和 `keepPacked` 由 Anvil 加载器使用，添加到区块时可能会导致意外的行为。
 :::
 

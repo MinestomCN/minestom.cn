@@ -1,27 +1,27 @@
 ---
-description: 允许使用不受支持版本的客户端加入 Minestom 服务器.
+description: 允许使用不受支持的版本的客户端加入Minestom服务器。
 ---
 
+# 不受支持的版本
 
-# 不支持的版本
+:::alert important
+使用不受支持的Minecraft版本本身就是不受支持的。使用这些版本时你不太可能获得帮助。
+:::
 
-> [!WARNING]
-> 使用不支持的 Minecraft 版本，嗯，是不受支持的。使用这些版本时，您不太可能获得帮助。
-
-Minestom 旨在与最新版本的 Minecraft 保持同步。然而，这可能并不对所有服务器都有利。有时可能会出现以下情况：
-- Minestom 落后于 Minecraft 的最新版本。
-- 服务器想要支持旧客户端。
+Minestom致力于保持与最新版Minecraft同步。然而，这对所有服务器来说可能并非最佳选择。有时可能会出现以下情况：
+- Minestom落后于Minecraft的最新版本
+- 服务器希望支持旧版客户端
 
 ## ViaVersion
 
-要在您的服务器上支持多个版本，您可以使用 [ViaVersion](https://github.com/ViaVersion  )。如果您已有一个现有的 [proxy](/docs/compatibility/proxies)，您可以安装他们的 [plugin](https://github.com/ViaVersion/ViaVersion  )。如果您没有，您需要使用 [ViaProxy](https://github.com/ViaVersion/ViaProxy  )。
-
+要在服务器上支持多个版本，可以使用[ViaVersion](https://github.com/ViaVersion  )。如果已有现成的[代理](/docs/compatibility/proxies)，可以安装他们的[插件](https://github.com/ViaVersion/ViaVersion  )。如果没有代理，则需要使用[ViaProxy](https://github.com/ViaVersion/ViaProxy  )。
 
 ## 提交历史
 
-> [!CAUTION]
-> 使用此方法时，您**将不会**获得支持。
+:::alert important
+使用此方法时你**将不会**获得支持。
+:::
 
-如果您认为协议转换太麻烦，或者您的服务器只需要特定版本，则可以使用较旧的提交哈希。返回 Minestom 提交历史记录将允许您找到最新版本是您所需版本的提交。
+如果你认为协议转换过于复杂，或者只需要为服务器支持特定版本，使用旧的提交哈希是一个选择。回溯Minestom的提交历史可以找到当时最新版本符合你需求的提交点。
 
-这样做意味着您将错过新功能、错误修复和社区支持。
+这样做意味着你将错过新功能、错误修复和社区支持。

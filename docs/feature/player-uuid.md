@@ -13,7 +13,7 @@ connectionManager.setUuidProvider((playerConnection, username) -> {
 });
 ```
 
-::: warning
+:::alert warning
 如果你启用了 IP 转发（Velocity/Bungee），UUID 提供者是不必要的，并且不会工作
 :::
 

@@ -131,7 +131,7 @@ AcquirableCollection<Player> acquirablePlayers = getOnlinePlayers();
 Stream<Player> players = acquirablePlayers.unwrap();
 ```
 
-::: warning
+:::alert warning
 这些是不安全的操作，请务必阅读[线程安全](thread-safety)页面以了解其影响。
 :::
 
