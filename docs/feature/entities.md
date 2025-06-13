@@ -106,3 +106,13 @@ meta.setCustomNameVisible(true);
 meta.setCustomName(Component.text("Dangerous horse", NamedTextColor.RED));
 meta.setNotifyAboutChanges(true); // 和这行
 ```
+更多动作
+### 玩家实体 (NPCs)
+
+当创建看起来像玩家的NPC时，重要的是将它们实现为`Entity`类的扩展，而不是使用`Player`类或创建“虚拟连接”。这种方法可以防止与自定义`Player`类实现相关的潜在问题，并提供对NPC行为的更好控制。
+
+可以参考**mworzala**提供的[这个代码片段](https://gist.github.com/mworzala/2c5da51204c45c70db771d0ce7fe9412 )，它展示了如何创建一个基础的玩家NPC。
+
+> **Important Notes:**
+> - 用户名必须少于或等于16个字符。如果用户名过长，将会导致`DecoderException`，消息为“Failed to decode packet 'clientbound/minecraft:player_info_update'”
+> - 此实现仅供参考和起点。您可能需要根据具体需求对其进行扩展
