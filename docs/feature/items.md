@@ -24,15 +24,15 @@ ItemStack stoneStack = ItemStack.of(Material.STONE, 64);
 
 ```java
 ItemStack item = ItemStack.of(Material.STONE)
-        .with(DataComponent.CUSTOM_NAME, Component.text("Item name!", NamedTextColor.GREEN));
+        .with(DataComponents.CUSTOM_NAME, Component.text("Item name!", NamedTextColor.GREEN));
 ```
 
 但由于物品是不可变的，使用构建器创建复杂对象会更简单：
 
 ```java
 item = ItemStack.builder(Material.STONE)
-        .set(DataComponent.CUSTOM_NAME, Component.text("Item name!", NamedTextColor.GREEN))
-        .set(DataComponent.LORE, List.of(Component.text("Line 1"), Component.text("Line 2")))
+        .set(DataComponents.CUSTOM_NAME, Component.text("Item name!", NamedTextColor.GREEN))Add commentMore actions
+        .set(DataComponents.LORE, List.of(Component.text("Line 1"), Component.text("Line 2")))
         .build();
 
 // 我们还为常见组件提供了一些实用方法
@@ -51,13 +51,13 @@ item = item.withAmount(5);
 // 基于当前数量设置新数量
 item = item.withAmount(amount -> amount * 2);
 // 其他字段也有类似方法
-item = item.with(DataComponent.CUSTOM_NAME, Component.text("New item name!"));
+item = item.with(DataComponents.CUSTOM_NAME, Component.text("New item name!"));
 
 // 开始重建物品
 // 如果需要修改多个字段，这比上面的方法更高效
 item = item.with(builder -> {
         builder.amount(32)
-                .set(DataComponent.CUSTOM_NAME, Component.text("Again..."));
+                .set(DataComponents.CUSTOM_NAME, Component.text("Again..."));
         });
 ```
 
