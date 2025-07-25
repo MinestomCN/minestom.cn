@@ -4,7 +4,7 @@ description: 在一个地方响应所有类型的服务器列表ping。
 
 # 服务器列表ping
 
-Minestom 提供了在一个地方自定义五种不同服务器列表ping响应的能力。简而言之，要监听每种类型的服务器列表ping事件，你只需要监听 `ServerListPingEvent` 并修改事件中的 `ResponseData`。无论ping的来源是什么，响应数据都将以相应来源的正确格式进行格式化。
+Minestom 支持在同一位置自定义对五种不同服务器列表ping类型的响应。简单来说，要监听所有类型的服务器列表ping事件，只需监听`ServerListPingEvent`并修改事件中的`Status`无论ping的来源是什么，响应数据都会以对应来源所需的正确格式返回。
 
 ## Ping类型
 
@@ -18,27 +18,32 @@ Minestom 提供了在一个地方自定义五种不同服务器列表ping响应�
 
 描述支持颜色和样式，以及一些更复杂的组件类型。Minecraft 1.16及以上版本可以使用完整的RGB颜色代码。对于较旧的版本，颜色会自动降采样为命名颜色。
 
-玩家样本表示为UUID到名称的映射列表，不一定是服务器上的玩家。`NamedAndIdentified` 接口用于保存此映射，并允许在 `ResponseData` 类中互换使用玩家和自定义映射。有关如何使用此接口的示例，请参见下面的代码块。
+玩家示例表示为UUID到名称的映射列表，这些映射不必是服务器上真实存在的玩家。`NamedAndIdentified`接口用于保存这种映射，并允许玩家和自定义映射在`Status`类中互换使用。关于如何使用此接口的示例，参见下方代码块。
 
 ```java
 // 你可以直接添加玩家
-responseData.addEntry(somePlayer);
-responseData.addEntries(MinecraftServer.getConnectionManager().getOnlinePlayers());
+byte[] favicon; // 一段原始PNG数据的byte数组；可以从文件加载
+int onlinePlayers = MinecraftServer.getConnectionManager().getOnlinePlayerCount();
 
-// 或者使用 named and identified 接口
-responseData.addEntry(NamedAndIdentified.named("Bob"))
-responseData.addEntry(NamedAndIdentified.named(Component.text("Sally", TextColor.of(0x123412))));
+event.setStatus(Status.builder()
+        .description(Component.text("Welcome to my Minecraft server!", NamedTextColor.GOLD))
+        .favicon(favicon)
+        .playerInfo(Status.PlayerInfo.builder()
+                .onlinePlayers(onlinePlayers)
+                .maxPlayers(500)
+                .sample(somePlayer)
+                .sample(NamedAndIdentified.named("Notch"))
+        .sample(NamedAndIdentified.named(Component.text("Herobrine", NamedTextColor.AQUA)))
+        .build())
+        .playerInfo(onlinePlayers, 500) // simpler alternative to set player count only
+        .versionInfo(new Status.VersionInfo("1.8.9", 47)) // set some fake version info
+        .build());
 ```
 
 不带UUID的方法将使用随机UUID，允许你创建任意数量的玩家而不会使用冲突的UUID。此外，每个条目可以使用组件或字符串。使用组件允许你为每个条目使用颜色和样式。在原版Minecraft客户端中显示的玩家列表支持旧版§颜色编码，每个条目的名称会自动转换为此格式。
 
-在现代类别中，玩家样本以及在线和最大玩家数量可以完全隐藏：
+在现代分类中，通过将`playerInfo`设为`null`，可以完全隐藏玩家示例以及在线和最大玩家数。在vanilla客户端中，在线/最大玩家数会被替换为`???`
 
-```java
-responseData.setPlayersHidden(true);
-```
-
-在原版客户端中，在线/最大玩家数量将被替换为 `???`
 
 ### 旧版
 
