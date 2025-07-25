@@ -203,7 +203,7 @@ repositories {
 
 dependencies {
     // 将这个更改为最新版本
-    implementation 'net.minestom:minestom-snapshots:<version>'
+    implementation 'net.minestom:minestom:<version>'
 }
 
 java {
@@ -248,7 +248,7 @@ repositories {
 
 dependencies {
     // 将这个更改为最新版本
-    implementation("net.minestom:minestom-snapshots:<version>")
+    implementation("net.minestom:minestom:<version>")
 }
 
 java {
@@ -302,7 +302,7 @@ tasks {
     <dependencies>
         <dependency>
             <groupId>net.minestom</groupId>
-            <artifactId>minestom-snapshots</artifactId>
+            <artifactId>minestom</artifactId>
             <version>version</version> <!--将这个更改为你使用的 Minestom 版本-->
         </dependency>
     </dependencies>
