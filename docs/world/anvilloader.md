@@ -5,9 +5,10 @@ description: >-
 
 ## 使用AnvilLoader加载世界
 
-为了将一个世界加载到实例中，请使用 `InstanceContainer#setChunkLoader(IChunkLoader)` 函数。
+为了将一个世界加载到实例中，请使用 `InstanceContainer#setChunkLoader(ChunkLoader)` 函数。
 
 使用此方法加载一个世界的示例如下：
+
 ```java
 InstanceContainer.setChunkLoader(new AnvilLoader("worlds/world"));
 ```

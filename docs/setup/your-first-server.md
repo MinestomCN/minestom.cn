@@ -253,7 +253,7 @@ dependencies {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21)) // Minestom 的最低 Java 版本是 21
+        languageVersion.set(JavaLanguageVersion.of(25)) // Minestom 的最低 Java 版本是 21
     }
 }
 
@@ -293,7 +293,7 @@ tasks {
     <version>1.0.0</version>
 
     <properties>
-        <java.version>21</java.version> <!--Minestom 的最低 Java 版本是 21-->
+        <java.version>25</java.version> <!--Minestom 的最低 Java 版本是 21-->
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

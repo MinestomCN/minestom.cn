@@ -1,10 +1,10 @@
 # 实例
 
-## 实例是什么
+## 什么是实例
 
-实例是替代 Minecraft 原版中的“世界”的，它们是轻量级的，并且应该提供类似的属性。目前有多种实例实现方式，包括 `InstanceContainer` 和 `SharedInstance`（下面将解释两者）
+实例是用于替代原版 Minecraft 中“世界”的概念，它们更轻量，并应提供类似的属性。目前有多种实例实现，包括 `InstanceContainer` 和 `SharedInstance`（两者均在下文解释）。
 
-所有实例都可以通过使用 InstanceManager 或者获取实体实例来访问
+所有实例均可通过 InstanceManager 访问，或从实体实例获取：
 
 ```java
 InstanceManager instanceManager = MinecraftServer.getInstanceManager()
@@ -12,31 +12,31 @@ InstanceManager instanceManager = MinecraftServer.getInstanceManager()
 Entity#getInstance
 ```
 
-在内部，默认的实例类有自己的集合来存储其中的实体，但所有基于区块的方法都是抽象的，意味着需要由子类来实现
+在内部，默认的 Instance 类拥有自己的集合来存储其中的实体，但所有基于区块的方法都是抽象的，需要由子类实现。
 
 ## InstanceContainer
 
-这里的“容器”意味着这是一个可以存储区块的实例。和每个实例一样，它拥有自己的实体集合
+这里的“Container”表示这是一个可以存储区块的实例。与其他实例一样，它拥有自己的实体集合。
 
-你可以通过调用以下方法来创建一个 `InstanceContainer`：
+你可以通过以下方式创建 `InstanceContainer`：
 
 ```java
 InstanceContainer instanceContainer = instanceManager.createInstanceContainer();
 ```
 
-为了有一个有效的世界生成，你需要指定实例应该使用哪个 `ChunkGenerator`，没有它就无法生成区块。（查看[这里](https://minestom.net/docs/world/generation) 来创建你自己的）
+为了拥有有效的世界生成，你需要为该实例指定一个 `Generator`，否则无法生成任何区块。（查看[此处](https://minestom.net/docs/world/generation)了解如何创建你自己的生成器）
 
 ```java
-instance.setChunkGenerator(YOUR_GENERATOR);
+instance.setGenerator(YOUR_GENERATOR);
 ```
 
 ## SharedInstance
 
-`SharedInstance` 需要有一个 `InstanceContainer` 与其关联。“共享”意味着这是一个从其父实例容器中获取所有区块的实例
+`SharedInstance` 需要关联一个 `InstanceContainer`。这里的“Shared”表示该实例的所有区块都来自其父容器实例。
 
-这是什么意思？这意味着如果你在实例容器中破坏或放置一个方块，共享实例也会反映这个变化（如果你使用共享实例方法放置方块，变化也会反映在实例容器及其所有共享实例中）
+这意味着什么？如果你在实例容器中破坏或放置一个方块，共享实例也会反映该变化（同样，如果你通过共享实例的方法放置方块，变化也会反映在实例容器及其所有共享实例中）
 
-你可以使用以下方法创建一个 `SharedInstance`：
+你可以通过以下方式创建 `SharedInstance`：
 
 ```java
 SharedInstance sharedInstance = instanceManager.createSharedInstance(instanceContainer);
@@ -44,12 +44,12 @@ SharedInstance sharedInstance = instanceManager.createSharedInstance(instanceCon
 
 ## 创建你自己的实例类型
 
-你可以创建你自己的类来扩展 `Instance` 并向其中添加实体。
+你可以创建自己的类并继承 `Instance`，并向其中添加实体。
 
-在这种情况下，你唯一需要注意的是，所有实例都需要在实例管理器中手动注册。
+在这种情况下，你唯一需要注意的是，所有实例都需要手动注册到实例管理器中。
 
 ```java
 instanceManager.registerInstance(YOUR_CUSTOM_INSTANCE);
 ```
 
-如果你手动实例化你的实例对象，这个方法是**唯一**需要的，`InstanceManager#createInstanceContainer` 和 `InstanceManager#createSharedInstance` 已经在内部注册了实例。
+此方法**仅**在你手动实例化实例对象时需要使用，`InstanceManager#createInstanceContainer` 和 `InstanceManager#createSharedInstance` 已在内部完成注册。
